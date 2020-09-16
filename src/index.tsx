@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Test from './pages/test'
+import MainPage from './pages/main'
 
 ReactDOM.render(
-    <Test/>,
+    <MainPage/>,
   document.getElementById('root')
 );
 
