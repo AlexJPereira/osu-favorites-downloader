@@ -7,7 +7,7 @@ const test = new OsuApi()
 export default class MainPage extends Component{
     render(){
         return (
-            <button onClick={test.alert}>test script</button>
+            <button onClick={test.test}>test script</button>
         )
     }
 }
