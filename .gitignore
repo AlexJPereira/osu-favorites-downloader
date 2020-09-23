@@ -11,7 +11,8 @@
 /src/data/test
 
 # production
-/public/electron
+/public/src
+/public/electron.js
 /build
 /bin
 
