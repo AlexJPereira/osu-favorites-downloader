@@ -2,6 +2,22 @@
   "name": "osu-favorite-downloader",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
+  "main": "public/electron.js",
+  "build": {
+    "appId": "com.wykke.osufavoritedownloader",
+    "files": [
+      "./build/**/*",
+      "./node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public/assets",
+      "output": "bin"
+    },
+    "linux": {
+      "target": "Appimage"
+    }
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -25,8 +41,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-start": "electron ./public/electron.js",
-    "electron-build": "yarn build --em.main=build/electron.js && electron-builder"
+    "electron-start": "yarn electron-compile && electron ./public/electron.js",
+    "electron-compile": "cd ./src/electron && tsc",
+    "electron-build": "yarn electron-compile && yarn build --em.main=build/electron.js && electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"
