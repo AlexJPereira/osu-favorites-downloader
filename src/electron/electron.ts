@@ -1,7 +1,6 @@
 import {app, BrowserWindow} from 'electron'
 import path from 'path'
 import isDev from 'electron-is-dev'
-import test from './src/test'
  
 const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
 
@@ -35,4 +34,3 @@ app.on('activate', () => {
   }
 })
 
-test()
