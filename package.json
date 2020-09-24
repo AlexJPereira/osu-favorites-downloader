@@ -41,7 +41,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-start": "yarn electron-compile && electron ./public/electron.js",
+    "electron-start": "electron ./public/electron.js",
     "electron-compile": "cd ./src/electron && tsc",
     "electron-build": "yarn electron-compile && yarn build --em.main=build/electron.js && electron-builder"
   },
