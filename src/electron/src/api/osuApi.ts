@@ -32,20 +32,35 @@ export default class OsuApi{
     }
 
     async loginOsuUser(username: string, password: string){
-        return await axios.post("https://osu.ppy.sh/session",stringify({
+        await axios.post("https://osu.ppy.sh/session",stringify({
             _token: this.xsrfToken,
             username,
             password
         }), {
-            headers: this.getHeader(),
+            headers: this.getHeader("https://osu.ppy.sh/home"),
         })
+        await delay(this.globalDelay)
     }
 
-    getHeader(){
+    async downloadSingleBeatmap(beatmapId: number, noVideo: boolean = false){
+        const beatmap = await axios.get(`/beatmapsets/${beatmapId}/download`, {
+            params: {
+                noVideo: noVideo ? 1 : 0
+            },
+            responseType: 'stream',
+            headers: {
+              Referer: `https://osu.ppy.sh/beatmapsets/${beatmapId}`
+            }
+        })
+        await delay(this.globalDelay)
+        return beatmap
+    }
+
+    getHeader(Referer: string){
         return {
             "X-CSRF-Token": this.xsrfToken,
             Cookie: this.cookieJar.getCookieStringSync("https://osu.ppy.sh/home"),
-            "Referer": "https://osu.ppy.sh/home",
+            "Referer": Referer,
         }
     }
 }
