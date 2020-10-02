@@ -2,9 +2,11 @@ import axios from 'axios'
 import axiosCookieJarSupport from 'axios-cookiejar-support'
 import tough from 'tough-cookie'
 import dotenv from 'dotenv'
+import { stringify } from 'querystring'
 
 import delay from '../utils/delay'
-import { stringify } from 'querystring'
+import saveBeatmap from '../utils/saveBeatmap'
+
 
 dotenv.config({path: "../../.env"})
 axiosCookieJarSupport(axios)
@@ -14,21 +16,28 @@ const envUsername = process.env.OSU_USERNAME || ""
 const envPassword = process.env.OSU_PASSWORD || ""
 
 export default class OsuApi{
-    private cookieJar = new tough.CookieJar()
+    private cookieJar = new tough.CookieJar(undefined, { rejectPublicSuffixes: false })
     private globalDelay = 1000
     private xsrfToken = ""
+    private xsrfTokenName = ""
 
     async tests(){
         await this.getCookies()
-        const resp = await this.loginOsuUser(envUsername, envPassword)
-        console.log(resp)
+        await this.loginOsuUser(envUsername, envPassword)
+        const a1 = await this.downloadSingleBeatmap(1143263)
+        if(a1)
+            await saveBeatmap(a1, "D:\\maps\\", 1143263)
     }
     
     async getCookies(){
         const starterPage = await axios.get("https://osu.ppy.sh/home", { jar: this.cookieJar })
-        const xsrfTokenName = starterPage.config.xsrfCookieName || ""
-        this.xsrfToken = this.cookieJar.getCookiesSync("https://osu.ppy.sh/home").find(cookie => cookie.key === xsrfTokenName)?.value || ""
+        this.xsrfTokenName = starterPage.config.xsrfCookieName || ""
+        this.updateXsrfToken()
         await delay(this.globalDelay)
+    }
+
+    updateXsrfToken(){
+        this.xsrfToken = this.cookieJar.getCookiesSync("https://osu.ppy.sh/").find(cookie => cookie.key === this.xsrfTokenName)?.value || ""
     }
 
     async loginOsuUser(username: string, password: string){
@@ -37,29 +46,36 @@ export default class OsuApi{
             username,
             password
         }), {
+            jar: this.cookieJar,
             headers: this.getHeader("https://osu.ppy.sh/home"),
         })
+
+        this.updateXsrfToken()
         await delay(this.globalDelay)
     }
 
     async downloadSingleBeatmap(beatmapId: number, noVideo: boolean = false){
-        const beatmap = await axios.get(`/beatmapsets/${beatmapId}/download`, {
-            params: {
-                noVideo: noVideo ? 1 : 0
-            },
-            responseType: 'stream',
-            headers: {
-              Referer: `https://osu.ppy.sh/beatmapsets/${beatmapId}`
-            }
-        })
-        await delay(this.globalDelay)
-        return beatmap
+        try{
+            const beatmap = await axios.get(`https://osu.ppy.sh/beatmapsets/${beatmapId}/download`, {
+                params: {
+                    noVideo: noVideo ? 1 : 0
+                },
+                responseType: 'stream',
+                jar: this.cookieJar,
+                headers: this.getHeader(`https://osu.ppy.sh/beatmapsets/${beatmapId}`)
+            })
+            await delay(this.globalDelay)
+            return beatmap
+        }catch(err){
+            console.log(err)
+            console.log("error on download single beatmap")
+        }
     }
 
     getHeader(Referer: string){
         return {
             "X-CSRF-Token": this.xsrfToken,
-            Cookie: this.cookieJar.getCookieStringSync("https://osu.ppy.sh/home"),
+            Cookie: this.cookieJar.getCookieStringSync("https://osu.ppy.sh/"),
             "Referer": Referer,
         }
     }
