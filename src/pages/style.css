@@ -1,0 +1,9 @@
+.background-image{
+    width: 100vw;
+    height: 30vh;
+}
+
+.main-page{
+    height: 100vh;
+    background-color: rgb(34, 31, 46);
+}
