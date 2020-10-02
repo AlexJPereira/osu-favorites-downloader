@@ -1,12 +1,13 @@
 import {app, BrowserWindow} from 'electron'
 import path from 'path'
 import isDev from 'electron-is-dev'
+
 import osuApi from './src/api/osuApi'
- 
-const a = new osuApi()
-a.tests()
 
 const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
+
+const a = new osuApi()
+a.tests()
 
 function createWindow () {
   const win = new BrowserWindow({
