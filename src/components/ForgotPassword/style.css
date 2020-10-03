@@ -1,8 +1,9 @@
 .forgot-password{
     color: #fc2;
-    width: 80%;
-    margin: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     transition: color 80ms linear;
+    font-family: 'Tahoma';
 }
 
 .forgot-password:hover{
