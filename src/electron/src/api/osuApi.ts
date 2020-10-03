@@ -8,7 +8,8 @@ import delay from '../utils/delay'
 import saveBeatmap from '../utils/saveBeatmap'
 
 
-dotenv.config({path: "../../.env"})
+//dotenv.config({path: "../../.env"})
+dotenv.config()
 axiosCookieJarSupport(axios)
 axios.defaults.withCredentials = true
 
@@ -81,5 +82,5 @@ export default class OsuApi{
     }
 }
 
-const test = new OsuApi()
-test.tests()
+//const test = new OsuApi()
+//test.tests()

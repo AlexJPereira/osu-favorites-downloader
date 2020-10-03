@@ -1,0 +1,11 @@
+.forgot-password{
+    color: #fc2;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    transition: color 80ms linear;
+    font-family: 'Tahoma';
+}
+
+.forgot-password:hover{
+    color: #fff;
+}
