@@ -1,0 +1,10 @@
+.forgot-password{
+    color: #fc2;
+    width: 80%;
+    margin: 15px;
+    transition: color 80ms linear;
+}
+
+.forgot-password:hover{
+    color: #fff;
+}
