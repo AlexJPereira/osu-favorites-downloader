@@ -1,7 +1,9 @@
-import OsuApi from './osuApi'
-import delay from '../utils/delay'
 import axios, { AxiosResponse } from 'axios'
 import fs from 'fs'
+
+import OsuApi from './osuApi'
+import delay from '../utils/delay'
+import { IBeatmapIdList } from './osuFavoriteList'
 
 async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: boolean = false){
     try{
@@ -21,6 +23,21 @@ async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: b
     }
 }
 
+async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], offset: number, path: string, noVideo?: boolean){
+    for(let i=offset; i<beatmapList.length; i++){
+        const item = beatmapList.shift()
+        if(item){
+            const beatmap = await this.downloadSingleBeatmap(item.id, noVideo)
+            if(beatmap) await saveBeatmap(beatmap, path, item.id)
+            else return false
+        }
+        else{
+            return false
+        } 
+    }
+    return true
+}
+
 async function saveBeatmap(beatmap: AxiosResponse, path: string, beatmapId: number){
     return new Promise((resolve, reject) => {
         const dest = fs.createWriteStream(path + beatmapId + ".osz");
@@ -32,5 +49,6 @@ async function saveBeatmap(beatmap: AxiosResponse, path: string, beatmapId: numb
 
 export default {
     downloadSingleBeatmap,
-    saveBeatmap
+    saveBeatmap,
+    downloadBeatmapList
 }

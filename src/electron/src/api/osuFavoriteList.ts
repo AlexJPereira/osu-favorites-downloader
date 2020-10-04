@@ -2,7 +2,7 @@ import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import axios from 'axios'
 
-interface IBeatmapFavoriteList{
+export interface IBeatmapFavoriteList{
     artist: string
     covers: {
         cover: string
@@ -18,8 +18,15 @@ interface IBeatmapFavoriteList{
     creator: string
 }
 
+export interface IBeatmapIdList{
+    id: number
+}
+
 async function getFavoriteCount(this: OsuApi, userId: number){
-    const userPage = await axios.get(`https://osu.ppy.sh/users/${userId}`, { jar: this.cookieJar })
+    const userPage = await axios.get(`https://osu.ppy.sh/users/${userId}`, {
+        jar: this.cookieJar,
+        headers: this.getHeader(`https://osu.ppy.sh/users/${userId}`)
+    })
     const favCountLocation = userPage.data.indexOf('"favourite_beatmapset_count":')
     const favTagLength = '"favourite_beatmapset_count":'.length
     const favCount = userPage.data.substring(favCountLocation + favTagLength, userPage.data.indexOf(",",favCountLocation))
@@ -28,16 +35,16 @@ async function getFavoriteCount(this: OsuApi, userId: number){
 }
 
 async function getUserFavouriteBeatmaps(this: OsuApi, userId: number, offset: number, favoriteCount: number){
-    const favoritesPage = await axios.get(
-        `https://osu.ppy.sh/users/${userId}/beatmapsets/favourite?offset=${offset}&limit=${favoriteCount}`,
-        { jar: this.cookieJar }
-    )
+    const favoritesPage = await axios.get(`https://osu.ppy.sh/users/${userId}/beatmapsets/favourite?offset=${offset}&limit=${favoriteCount}`,{ 
+        jar: this.cookieJar, 
+        headers: this.getHeader(`https://osu.ppy.sh/users/${userId}`)
+    })
     const favoritesList = (favoritesPage.data) as IBeatmapFavoriteList[]
     return favoritesList
 }
 
 async function getUserFavoriteBeatmapsIds(this: OsuApi, userId: number, offset: number, favoriteCount: number){
-    const favoriteIds: {id: number}[] = []
+    const favoriteIds: IBeatmapIdList[] = []
     while(offset + this.maxFavoriteCallCount < favoriteCount){
         const list = await this.getUserFavouriteBeatmaps(userId, offset, this.maxFavoriteCallCount)
         list.forEach(beatmap => {

@@ -25,12 +25,10 @@ export default class OsuApi{
     public osuUser: OsuUser | undefined = undefined
 
     async tests(){
-        // await this.getCookies()
-        // const page = await this.loginOsuUser(envUsername, envPassword)
-        // const wykke = new OsuUser(page)
-        // console.log(wykke.userPic)
-        const btmcount = await this.getFavoriteCount(9866460)
-        console.log((await this.getUserFavoriteBeatmapsIds(9866460, 0, btmcount)).length, btmcount)
+        await this.getCookies()
+        await this.loginOsuUser(envUsername, envPassword)
+        const list = await this.getUserFavoriteBeatmapsIds(9866460, 0, 1)
+        console.log(await this.downloadBeatmapList(list, 0, "D:\\maps\\"))
     }
     
     getCookies = OsuLogin.getCookies.bind(this)
@@ -42,6 +40,7 @@ export default class OsuApi{
     getUserFavoriteBeatmapsIds = osuFavoriteList.getUserFavoriteBeatmapsIds.bind(this)
 
     downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap.bind(this)
+    downloadBeatmapList = OsuDownload.downloadBeatmapList.bind(this)
     saveBeatmap = OsuDownload.saveBeatmap
 
     getHeader(Referer: string){
