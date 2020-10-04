@@ -5,10 +5,11 @@ import './style.css'
 interface ILoginInputProps{
     placeholder?: string
     password?: boolean
+    id?: string
 }
 
 export default function(props: ILoginInputProps){
     return (
-        <input className="login-input" placeholder={props.placeholder} type={props.password ? "password" : ""}/>
+        <input id={props.id} className="login-input" placeholder={props.placeholder} type={props.password ? "password" : ""}/>
     )
 }
