@@ -4,8 +4,6 @@ import tough from 'tough-cookie'
 import dotenv from 'dotenv'
 import { stringify } from 'querystring'
 
-import delay from '../utils/delay'
-import saveBeatmap from '../utils/saveBeatmap'
 import OsuUser from './osuUser'
 
 import OsuLogin from './osuLogin'
@@ -37,6 +35,7 @@ export default class OsuApi{
     getFavoriteCount = OsuFavoriteList.getFavoriteCount.bind(this)
 
     downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap.bind(this)
+    saveBeatmap = OsuDownload.saveBeatmap
 
     getHeader(Referer: string){
         return {
