@@ -4,18 +4,24 @@ import './style.css'
 import LoginInput from '../LoginInput'
 import ForgotPassword from '../ForgotPassword'
 import LoginButton from '../LoginButton'
+import { ILoginOsu } from '../../electron/src/ipcMain'
 
 const { ipcRenderer } = window.require("electron");
+
+const envUsername = process.env.REACT_APP_OSU_USERNAME || ""
+const envPassword = process.env.REACT_APP_OSU_PASSWORD || ""
 
 export default class LoginCard extends React.Component{
     login(){
         const usernameInput: HTMLInputElement  = document.getElementById("username-input") as HTMLInputElement
         const passwordInput: HTMLInputElement = document.getElementById("password-input") as HTMLInputElement
 
-        ipcRenderer.send("loginOsu", {
+        const user: ILoginOsu = {
             username: usernameInput.value,
             password: passwordInput.value
-        })
+        }
+
+        ipcRenderer.send("loginOsu", user)
     }
 
     render(){
@@ -23,8 +29,8 @@ export default class LoginCard extends React.Component{
             <div className="login-page">
                 <div className="login-card">
                     <div className="login-card-top">
-                        <LoginInput id="username-input" placeholder="Username"/>
-                        <LoginInput id="password-input" placeholder="Password" password/>
+                        <LoginInput id="username-input" placeholder="Username" value={envUsername}/>
+                        <LoginInput id="password-input" placeholder="Password" password value={envPassword}/>
                         <div className="forgot-password-container">
                             <ForgotPassword/>
                         </div>
