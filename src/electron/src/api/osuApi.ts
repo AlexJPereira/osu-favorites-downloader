@@ -6,10 +6,11 @@ import { stringify } from 'querystring'
 
 import delay from '../utils/delay'
 import saveBeatmap from '../utils/saveBeatmap'
+import OsuUser from './osuUser'
 
 
-//dotenv.config({path: "../../.env"})
-dotenv.config()
+dotenv.config({path: "../../.env"})
+
 axiosCookieJarSupport(axios)
 axios.defaults.withCredentials = true
 
@@ -24,10 +25,9 @@ export default class OsuApi{
 
     async tests(){
         await this.getCookies()
-        await this.loginOsuUser(envUsername, envPassword)
-        const a1 = await this.downloadSingleBeatmap(1143263)
-        if(a1)
-            await saveBeatmap(a1, "D:\\maps\\", 1143263)
+        const page = await this.loginOsuUser(envUsername, envPassword)
+        const wykke = new OsuUser(page)
+        console.log(wykke.userPic)
     }
     
     async getCookies(){
@@ -42,7 +42,7 @@ export default class OsuApi{
     }
 
     async loginOsuUser(username: string, password: string){
-        await axios.post("https://osu.ppy.sh/session",stringify({
+        const loginPage = await axios.post("https://osu.ppy.sh/session",stringify({
             _token: this.xsrfToken,
             username,
             password
@@ -53,6 +53,7 @@ export default class OsuApi{
 
         this.updateXsrfToken()
         await delay(this.globalDelay)
+        return loginPage
     }
 
     async downloadSingleBeatmap(beatmapId: number, noVideo: boolean = false){
@@ -82,5 +83,5 @@ export default class OsuApi{
     }
 }
 
-//const test = new OsuApi()
-//test.tests()
+const test = new OsuApi()
+test.tests()
