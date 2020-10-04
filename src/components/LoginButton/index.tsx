@@ -1,9 +1,13 @@
-import React from 'react'
+import React, {MouseEvent} from 'react'
 
 import './style.css'
 
-export default function(){
+interface ILoginButtonProps{
+    onClick(event?: MouseEvent): void
+}
+
+export default function(props: ILoginButtonProps){
     return (
-        <button className="login-button">Sign in</button>
+        <button className="login-button" onClick={props.onClick}>Sign in</button>
     )
 }

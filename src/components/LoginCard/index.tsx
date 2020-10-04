@@ -6,6 +6,10 @@ import ForgotPassword from '../ForgotPassword'
 import LoginButton from '../LoginButton'
 
 export default class LoginCard extends React.Component{
+    login(){
+        alert("login")
+    }
+
     render(){
         return (
             <div className="login-page">
@@ -18,7 +22,7 @@ export default class LoginCard extends React.Component{
                         </div>
                     </div>
                     <div className="login-card-bottom">
-                        <LoginButton/>
+                        <LoginButton onClick={this.login}/>
                     </div>
                 </div>
             </div>
