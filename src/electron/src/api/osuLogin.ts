@@ -10,10 +10,6 @@ async function getCookies(this: OsuApi){
     await delay(this.globalDelay)
 }
 
-function updateXsrfToken(this: OsuApi){
-    this.xsrfToken = this.cookieJar.getCookiesSync("https://osu.ppy.sh/").find(cookie => cookie.key === this.xsrfTokenName)?.value || ""
-}
-
 async function loginOsuUser(this: OsuApi, username: string, password: string){
     const loginPage = await axios.post("https://osu.ppy.sh/session",stringify({
         _token: this.xsrfToken,
@@ -27,6 +23,10 @@ async function loginOsuUser(this: OsuApi, username: string, password: string){
     this.updateXsrfToken()
     await delay(this.globalDelay)
     return loginPage
+}
+
+function updateXsrfToken(this: OsuApi){
+    this.xsrfToken = this.cookieJar.getCookiesSync("https://osu.ppy.sh/").find(cookie => cookie.key === this.xsrfTokenName)?.value || ""
 }
 
 export default {

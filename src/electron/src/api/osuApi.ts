@@ -22,10 +22,11 @@ export default class OsuApi{
     protected xsrfTokenName = ""
 
     async tests(){
-        await this.getCookies()
-        const page = await this.loginOsuUser(envUsername, envPassword)
-        const wykke = new OsuUser(page)
-        console.log(wykke.userPic)
+        // await this.getCookies()
+        // const page = await this.loginOsuUser(envUsername, envPassword)
+        // const wykke = new OsuUser(page)
+        // console.log(wykke.userPic)
+        console.log(await this.getFavoriteCount(9866460))
     }
     
     getCookies = OsuLogin.getCookies.bind(this)
