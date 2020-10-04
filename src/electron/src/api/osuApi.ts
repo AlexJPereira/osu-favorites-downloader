@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosCookieJarSupport from 'axios-cookiejar-support'
 import tough from 'tough-cookie'
-import dotenv from 'dotenv'
 
 import OsuUser from './osuUser'
 
@@ -10,10 +9,7 @@ import OsuDownload from './osuDownload'
 import OsuFavoriteList from './osuFavoriteList'
 import osuFavoriteList from './osuFavoriteList'
 
-dotenv.config({path: "../../.env"})
 axiosCookieJarSupport(axios)
-const envUsername = process.env.OSU_USERNAME || ""
-const envPassword = process.env.OSU_PASSWORD || ""
 
 export default class OsuApi{
     protected cookieJar = new tough.CookieJar(undefined, { rejectPublicSuffixes: false })
@@ -23,13 +19,6 @@ export default class OsuApi{
     protected xsrfTokenName = ""
 
     public osuUser: OsuUser | undefined = undefined
-
-    async tests(){
-        await this.getCookies()
-        await this.loginOsuUser(envUsername, envPassword)
-        const list = await this.getUserFavoriteBeatmapsIds(9866460, 0, 1)
-        console.log(await this.downloadBeatmapList(list, 0, "D:\\maps\\"))
-    }
     
     getCookies = OsuLogin.getCookies.bind(this)
     updateXsrfToken = OsuLogin.updateXsrfToken.bind(this)
@@ -51,6 +40,3 @@ export default class OsuApi{
         }
     }
 }
-
-const test = new OsuApi()
-test.tests()
