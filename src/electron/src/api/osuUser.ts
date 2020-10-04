@@ -25,4 +25,8 @@ export default class OsuUser{
     get userPic(){
         return this.loginPage.data.user.avatar_url
     }
+
+    get userId(){
+        return this.loginPage.data.user.id
+    }
 }

@@ -8,20 +8,20 @@ import delay from '../utils/delay'
 import saveBeatmap from '../utils/saveBeatmap'
 import OsuUser from './osuUser'
 
+import OsuLogin from './osuLogin'
+import OsuDownload from './osuDownload'
+import OsuFavoriteList from './osuFavoriteList'
 
 dotenv.config({path: "../../.env"})
-
 axiosCookieJarSupport(axios)
-axios.defaults.withCredentials = true
-
 const envUsername = process.env.OSU_USERNAME || ""
 const envPassword = process.env.OSU_PASSWORD || ""
 
 export default class OsuApi{
-    private cookieJar = new tough.CookieJar(undefined, { rejectPublicSuffixes: false })
-    private globalDelay = 1000
-    private xsrfToken = ""
-    private xsrfTokenName = ""
+    protected cookieJar = new tough.CookieJar(undefined, { rejectPublicSuffixes: false })
+    protected globalDelay = 1000
+    protected xsrfToken = ""
+    protected xsrfTokenName = ""
 
     async tests(){
         await this.getCookies()
@@ -30,49 +30,13 @@ export default class OsuApi{
         console.log(wykke.userPic)
     }
     
-    async getCookies(){
-        const starterPage = await axios.get("https://osu.ppy.sh/home", { jar: this.cookieJar })
-        this.xsrfTokenName = starterPage.config.xsrfCookieName || ""
-        this.updateXsrfToken()
-        await delay(this.globalDelay)
-    }
+    getCookies = OsuLogin.getCookies
+    updateXsrfToken = OsuLogin.updateXsrfToken
+    loginOsuUser = OsuLogin.loginOsuUser
 
-    updateXsrfToken(){
-        this.xsrfToken = this.cookieJar.getCookiesSync("https://osu.ppy.sh/").find(cookie => cookie.key === this.xsrfTokenName)?.value || ""
-    }
+    downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap
 
-    async loginOsuUser(username: string, password: string){
-        const loginPage = await axios.post("https://osu.ppy.sh/session",stringify({
-            _token: this.xsrfToken,
-            username,
-            password
-        }), {
-            jar: this.cookieJar,
-            headers: this.getHeader("https://osu.ppy.sh/home"),
-        })
-
-        this.updateXsrfToken()
-        await delay(this.globalDelay)
-        return loginPage
-    }
-
-    async downloadSingleBeatmap(beatmapId: number, noVideo: boolean = false){
-        try{
-            const beatmap = await axios.get(`https://osu.ppy.sh/beatmapsets/${beatmapId}/download`, {
-                params: {
-                    noVideo: noVideo ? 1 : 0
-                },
-                responseType: 'stream',
-                jar: this.cookieJar,
-                headers: this.getHeader(`https://osu.ppy.sh/beatmapsets/${beatmapId}`)
-            })
-            await delay(this.globalDelay)
-            return beatmap
-        }catch(err){
-            console.log(err)
-            console.log("error on download single beatmap")
-        }
-    }
+    getFavoriteCount = OsuFavoriteList.getFavoriteCount
 
     getHeader(Referer: string){
         return {
