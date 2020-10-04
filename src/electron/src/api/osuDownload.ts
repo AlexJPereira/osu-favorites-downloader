@@ -2,7 +2,7 @@ import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import axios from 'axios'
 
-async function downloadSingleBeatmap(this:OsuApi, beatmapId: number, noVideo: boolean = false){
+async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: boolean = false){
     try{
         const beatmap = await axios.get(`https://osu.ppy.sh/beatmapsets/${beatmapId}/download`, {
             params: {

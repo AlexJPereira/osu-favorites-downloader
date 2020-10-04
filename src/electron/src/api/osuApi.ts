@@ -30,13 +30,13 @@ export default class OsuApi{
         console.log(wykke.userPic)
     }
     
-    getCookies = OsuLogin.getCookies
-    updateXsrfToken = OsuLogin.updateXsrfToken
-    loginOsuUser = OsuLogin.loginOsuUser
+    getCookies = OsuLogin.getCookies.bind(this)
+    updateXsrfToken = OsuLogin.updateXsrfToken.bind(this)
+    loginOsuUser = OsuLogin.loginOsuUser.bind(this)
 
-    downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap
+    getFavoriteCount = OsuFavoriteList.getFavoriteCount.bind(this)
 
-    getFavoriteCount = OsuFavoriteList.getFavoriteCount
+    downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap.bind(this)
 
     getHeader(Referer: string){
         return {
