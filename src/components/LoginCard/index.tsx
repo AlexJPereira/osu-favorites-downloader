@@ -4,6 +4,7 @@ import './style.css'
 import LoginInput from '../LoginInput'
 import ForgotPassword from '../ForgotPassword'
 import LoginButton from '../LoginButton'
+import { ILoginOsu } from '../../electron/src/ipcMain'
 
 const { ipcRenderer } = window.require("electron");
 
@@ -12,10 +13,12 @@ export default class LoginCard extends React.Component{
         const usernameInput: HTMLInputElement  = document.getElementById("username-input") as HTMLInputElement
         const passwordInput: HTMLInputElement = document.getElementById("password-input") as HTMLInputElement
 
-        ipcRenderer.send("loginOsu", {
+        const user: ILoginOsu = {
             username: usernameInput.value,
             password: passwordInput.value
-        })
+        }
+
+        ipcRenderer.send("loginOsu", user)
     }
 
     render(){

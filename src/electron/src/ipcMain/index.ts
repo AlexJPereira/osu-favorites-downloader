@@ -1,6 +1,11 @@
 import { ipcMain } from 'electron'
 //import OsuApi from '../api/osuApi'
 
-ipcMain.on("loginOsu", (event, arg) => {
+export interface ILoginOsu{
+    username: string
+    password: string
+}
+
+ipcMain.on("loginOsu", (event, arg: ILoginOsu) => {
     console.log(arg)
 })
