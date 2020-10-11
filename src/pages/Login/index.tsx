@@ -1,10 +1,21 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import './style.css'
 import LoginCard from '../../components/LoginCard'
 import BackgroundImage from '../../components/BackgroundImage'
 
-export default class MainPage extends Component{
+const { ipcRenderer } = window.require("electron");
+
+class Login extends Component<RouteComponentProps>{
+
+    constructor(props: RouteComponentProps){
+        super(props)
+        ipcRenderer.on("loginOsuReply", (event, arg)=>{
+            props.history.push("/download", arg);
+        })
+    }
+
     render(){
         return (
             <div className="main-page">
@@ -14,3 +25,5 @@ export default class MainPage extends Component{
         )
     }
 }
+
+export default withRouter(Login)
