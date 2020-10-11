@@ -12,10 +12,12 @@
     flex-direction: column;
     align-items: center;
     padding-top: 30px;
+    padding-bottom: 30px;
     width: 500px;
     height: 500px;
     background-color: rgb(48, 46, 56);
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 3px 0px;
+    overflow: hidden;
 }
 
 .download-welcome{
@@ -29,5 +31,6 @@
 
 .download-beatmaplist{
     width: 100%;
+    height: 100%;
     flex-grow: 1;
 }

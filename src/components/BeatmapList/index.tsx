@@ -2,6 +2,7 @@ import React from 'react'
 
 import './style.css'
 import { IBeatmapFavoriteList } from '../../electron/src/api/osuFavoriteList'
+import FavoriteCard from '../FavoriteCard'
 
 const { ipcRenderer } = window.require("electron");
 
@@ -25,9 +26,9 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
         return(
             <div className="beatmaplist-container">
                 <ul className="beatmaplist-list">
-                    {this.state.favoriteList.map(()=>{
-                        
-                    })}
+                    {this.state.favoriteList.map((favorite, index)=>(
+                        <FavoriteCard key={index} favorite={favorite}/>
+                    ))}
                 </ul>
             </div>
         )

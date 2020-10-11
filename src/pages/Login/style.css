@@ -6,6 +6,18 @@
     user-select: none;
 }
 
+::-webkit-scrollbar {     
+    background: transparent;
+    margin-left: 10px;
+    width: 3px;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+    background-color: #90a4aeb9;
+    border-radius: 1px;
+}
+
 .main-page{
     display: flex;
     flex-direction: column;
