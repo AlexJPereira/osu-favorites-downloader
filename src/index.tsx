@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MainPage from './pages/Login'
+import Router from './routes'
 
-ReactDOM.render(
-    <MainPage/>,
-  document.getElementById('root')
-);
+ReactDOM.render(<Router/>, document.getElementById('root'));
 
 
