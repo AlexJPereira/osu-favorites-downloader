@@ -12,7 +12,7 @@ ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
     try{
         await osuApi.getCookies()
         const user = await osuApi.loginOsuUser(arg.username, arg.password)
-        event.returnValue = user.object
+        event.reply("loginOsuReply", user.object)
     }catch(err){
         console.log(err)
         console.log("----- error on login ----")

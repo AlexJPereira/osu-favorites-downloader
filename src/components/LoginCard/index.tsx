@@ -5,7 +5,6 @@ import LoginInput from '../LoginInput'
 import ForgotPassword from '../ForgotPassword'
 import LoginButton from '../LoginButton'
 import { ILoginOsu } from '../../electron/src/ipcMain'
-import { IUser } from '../../electron/src/api/osuUser'
 
 const { ipcRenderer } = window.require("electron");
 
@@ -22,8 +21,7 @@ export default class LoginCard extends React.Component{
             password: passwordInput.value
         }
 
-        const loggedUser: IUser = await ipcRenderer.sendSync("loginOsu", user)
-        console.log(loggedUser)
+        ipcRenderer.send("loginOsu", user)
     }
 
     render(){
