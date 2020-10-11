@@ -11,6 +11,12 @@ export interface ILoginPage extends AxiosResponse{
     }
 }
 
+export interface IUser{
+    username: string
+    userPic: string
+    userId: number
+}
+
 export default class OsuUser{
     private loginPage: ILoginPage
 
@@ -28,5 +34,13 @@ export default class OsuUser{
 
     get userId(){
         return this.loginPage.data.user.id
+    }
+
+    get object(): IUser{
+        return {
+            username: this.username,
+            userPic: this.userPic,
+            userId: this.userId
+        }
     }
 }
