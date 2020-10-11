@@ -12,7 +12,7 @@ const envUsername = process.env.REACT_APP_OSU_USERNAME || ""
 const envPassword = process.env.REACT_APP_OSU_PASSWORD || ""
 
 export default class LoginCard extends React.Component{
-    login(){
+    async login(){
         const usernameInput: HTMLInputElement  = document.getElementById("username-input") as HTMLInputElement
         const passwordInput: HTMLInputElement = document.getElementById("password-input") as HTMLInputElement
 

@@ -11,9 +11,10 @@ const osuApi = new OsuApi()
 ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
     try{
         await osuApi.getCookies()
-        const loginPage = await osuApi.loginOsuUser(arg.username, arg.password)
-        console.log(loginPage.data)
+        const user = await osuApi.loginOsuUser(arg.username, arg.password)
+        event.reply("loginOsuReply", user.object)
     }catch(err){
-        console.log("error")
+        console.log(err)
+        console.log("----- error on login ----")
     }
 })

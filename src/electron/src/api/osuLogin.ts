@@ -2,6 +2,7 @@ import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import { stringify } from 'querystring'
 import axios from 'axios'
+import OsuUser from './osuUser'
 
 async function getCookies(this: OsuApi){
     const starterPage = await axios.get("https://osu.ppy.sh/home", { jar: this.cookieJar })
@@ -22,7 +23,8 @@ async function loginOsuUser(this: OsuApi, username: string, password: string){
 
     this.updateXsrfToken()
     await delay(this.globalDelay)
-    return loginPage
+    this.osuUser = new OsuUser(loginPage)
+    return this.osuUser
 }
 
 function updateXsrfToken(this: OsuApi){
