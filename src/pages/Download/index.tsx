@@ -3,24 +3,23 @@ import { RouteComponentProps } from 'react-router-dom'
 
 import './style.css'
 import { IUser } from '../../electron/src/api/osuUser'
+import BackgroundImage from '../../components/BackgroundImage'
 
-export default class Download extends React.Component{
-    state: IUser = {
-        userId: 0,
-        username: "",
-        userPic: ""
-    }
-
-    constructor(props: RouteComponentProps){
-        super(props)
-        this.state = props.history.location.state as IUser
-    }
+export default class Download extends React.Component<RouteComponentProps>{
+    state: IUser = this.props.history.location.state as IUser
     
     render(){
         return(
-            <div>
-                <h1>{this.state.username}</h1>
-                <h1>{this.state.userId}</h1>
+            // main-page style its in /pages/Login/style.css
+            <div className="main-page">
+                <BackgroundImage/>
+                <div className="download-page">
+                    <div className="download-card">
+                        <div className="download-welcome">
+                            <h1>Welcome {this.state.username}</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
