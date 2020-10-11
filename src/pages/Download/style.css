@@ -26,3 +26,8 @@
     color: white;
     font-family: 'Tahoma';
 }
+
+.download-beatmaplist{
+    width: 100%;
+    flex-grow: 1;
+}
