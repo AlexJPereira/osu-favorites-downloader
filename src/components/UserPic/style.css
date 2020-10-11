@@ -1,0 +1,15 @@
+.userpic-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: white;
+}
+
+.userpic-container > img{
+    border-radius: 30px;
+    width: 90%;
+    height: 90%;
+}
