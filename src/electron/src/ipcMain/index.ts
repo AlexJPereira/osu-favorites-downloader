@@ -18,3 +18,13 @@ ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
         console.log("----- error on login ----")
     }
 })
+
+ipcMain.on("getFavoriteList", async (event, id: number) => {
+    try{
+        const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 5)
+        event.reply("getFavoriteListReply", initialList)
+    }catch(err){
+        console.log(err)
+        console.log("----- error on get initial favorite beatmaps -----")
+    }
+})

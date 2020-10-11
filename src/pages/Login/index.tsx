@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 
 import './style.css'
+import '../../components/fontAwesome/css/font-awesome.min.css'
 import LoginCard from '../../components/LoginCard'
 import BackgroundImage from '../../components/BackgroundImage'
 

@@ -1,0 +1,54 @@
+.favoritecard-container{
+    position: relative;
+    width: 100%;
+    height: 35%;
+    margin-bottom: 20px;
+    list-style-type: none;
+    color: white;
+    overflow-y: hidden;
+}
+
+.favoritecard-container > img{
+    position: absolute;
+    width: 100%;
+}
+
+.favoritecard-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.favoritecard-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.favoritecard-countdetails{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.favoritecard-countdetails > div > label{
+    margin-right: 10px;
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
+
+.favoritecard-playcount > i{
+    margin-right: 1px;
+}
+
+.favoritecard-bottom{
+    display: flex;
+    flex-direction: column;
+}
+
+.favoritecard-bottom > label{
+    text-shadow: 1px 1px rgb(0, 0, 0);
+}
