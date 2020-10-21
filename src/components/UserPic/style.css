@@ -2,14 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
     background-color: white;
 }
 
 .userpic-container > img{
-    border-radius: 30px;
+    border-radius: 10px;
     width: 90%;
     height: 90%;
 }

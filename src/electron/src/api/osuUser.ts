@@ -15,6 +15,7 @@ export interface IUser{
     username: string
     userPic: string
     userId: number
+    country: string
 }
 
 export default class OsuUser{
@@ -36,11 +37,16 @@ export default class OsuUser{
         return this.loginPage.data.user.id
     }
 
+    get country(){
+        return this.loginPage.data.user.country_code
+    }
+
     get object(): IUser{
         return {
             username: this.username,
             userPic: this.userPic,
-            userId: this.userId
+            userId: this.userId,
+            country: this.country
         }
     }
 }
