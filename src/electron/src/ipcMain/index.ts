@@ -28,3 +28,13 @@ ipcMain.on("getFavoriteList", async (event, id: number) => {
         console.log("----- error on get initial favorite beatmaps -----")
     }
 })
+
+ipcMain.on("getFavoriteCount", async (event, id: number) => {
+    try{
+        const favoriteCount = await osuApi.getFavoriteCount(id)
+        event.reply("FavoriteCountReply", favoriteCount)
+    }catch(err){
+        console.log(err)
+        console.log("----- error on get favorite count -----")
+    }
+})

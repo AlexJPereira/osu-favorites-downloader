@@ -19,7 +19,7 @@ export default class Download extends React.Component<RouteComponentProps>{
                 <div className="download-page">
                     <div className="download-card">
                         <UserInfo user={this.state}/>
-                        <DownloadPanel/>
+                        <DownloadPanel userId={this.state.userId}/>
                         <div className="download-beatmaplist">
                             <BeatmapList userId={this.state.userId}/>
                         </div>
