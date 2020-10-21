@@ -1,0 +1,23 @@
+.user-info-card{
+    display: flex;
+    width: 100%;
+    padding-left: 40px;
+    color: white;
+    font-family: 'Tahoma';
+    font-size: 10px;
+}
+
+.user-info-username{
+    display: flex;
+    align-items: center;
+}
+
+.user-info-text{
+    margin-left: 20px;
+}
+
+.user-info-username > img{
+    margin-top: 6px;
+    height: 15px;
+    margin-left: 10px;
+}
