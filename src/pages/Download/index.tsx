@@ -6,6 +6,7 @@ import { IUser } from '../../electron/src/api/osuUser'
 import BackgroundImage from '../../components/BackgroundImage'
 import UserInfo from '../../components/UserInfo'
 import BeatmapList from '../../components/BeatmapList'
+import DownloadPanel from '../../components/DownloadPanel'
 
 export default class Download extends React.Component<RouteComponentProps>{
     state: IUser = this.props.history.location.state as IUser
@@ -18,6 +19,7 @@ export default class Download extends React.Component<RouteComponentProps>{
                 <div className="download-page">
                     <div className="download-card">
                         <UserInfo user={this.state}/>
+                        <DownloadPanel/>
                         <div className="download-beatmaplist">
                             <BeatmapList userId={this.state.userId}/>
                         </div>
