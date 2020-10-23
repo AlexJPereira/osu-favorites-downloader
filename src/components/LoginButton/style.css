@@ -1,8 +1,6 @@
 .login-button{
     appearance: none;
     background-color: rgb(140, 102, 255);
-    margin-top: 20px;
-    margin-bottom: 20px;
     border: 0;
     border-radius: 4px;
     min-width: 120px;

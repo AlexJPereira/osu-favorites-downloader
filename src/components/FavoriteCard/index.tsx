@@ -14,8 +14,9 @@ export default class FavoriteCard extends React.Component<IFavoriteCardProps>{
                 <img src={this.props.favorite.covers.cover} alt="favorite-cover"></img>
                 <div className="favoritecard-details">
                     <div className="favoritecard-top">
-                        <div className="favoritecard-player">
-
+                        <div className="favoritecard-bottom">
+                            <label className="favoritecard-title">{this.props.favorite.title}</label>
+                            <label className="favoritecard-artist">{this.props.favorite.artist}</label>
                         </div>
                         <div className="favoritecard-countdetails">
                             <div className="favoritecard-favcount">
@@ -27,10 +28,6 @@ export default class FavoriteCard extends React.Component<IFavoriteCardProps>{
                                 <i className="fa fa-play-circle"></i>
                             </div>
                         </div>
-                    </div>
-                    <div className="favoritecard-bottom">
-                        <label className="favoritecard-title">{this.props.favorite.title}</label>
-                        <label className="favoritecard-artist">{this.props.favorite.artist}</label>
                     </div>
                 </div>
             </li>

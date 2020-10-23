@@ -25,3 +25,15 @@
     height: 100%;
     flex-grow: 1;
 }
+
+.download-page-download-info{
+    display: flex;
+    background-color: rgba(0,0,0,0.2);
+    width: calc(100% - 20px);
+    border-radius: 15px;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    justify-content: space-between;
+    font-size: 9px;
+    color: white;
+}
