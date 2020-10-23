@@ -22,7 +22,6 @@ export default class Download extends React.Component<RouteComponentProps>{
         super(props)
         ipcRenderer.send("getFavoriteCount", this.state.userId)
         ipcRenderer.on("FavoriteCountReply", (event, arg) => {
-            console.log(arg)
             this.setState({favoriteCount: arg})
             this.downloadPanel.current?.setState({favoriteCount: arg})
         })
