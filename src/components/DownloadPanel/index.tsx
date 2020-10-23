@@ -5,24 +5,17 @@ import './style.css'
 import LoginInput from '../LoginInput'
 import LoginButton from '../LoginButton'
 
-const { ipcRenderer } = window.require("electron");
-
-export interface DownloadPanelState{
+export interface IDownloadPanelState{
     favoriteCount: number
 }
 
-export default class DownloadPanel extends React.Component<{userId: number}>{
-    state: DownloadPanelState = {
-        favoriteCount: 0
+export default class DownloadPanel extends React.Component<{favoriteCount: number}>{
+    state: IDownloadPanelState = {
+        favoriteCount: this.props.favoriteCount
     }
 
-    constructor(props: {userId: number}){
-        super(props)
-        ipcRenderer.send("getFavoriteCount", props.userId)
-        ipcRenderer.on("FavoriteCountReply", (event, arg) => {
-            console.log(arg)
-            this.setState({favoriteCount: arg})
-        })
+    set favoriteCount(count: number){
+        this.setState({favoriteCount: count})
     }
 
     render() {

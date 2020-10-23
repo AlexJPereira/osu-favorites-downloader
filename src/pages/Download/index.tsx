@@ -8,8 +8,25 @@ import UserInfo from '../../components/UserInfo'
 import BeatmapList from '../../components/BeatmapList'
 import DownloadPanel from '../../components/DownloadPanel'
 
+const { ipcRenderer } = window.require("electron");
+
+export interface IDownloadPageState extends IUser{
+    favoriteCount: number
+}
+
 export default class Download extends React.Component<RouteComponentProps>{
-    state: IUser = this.props.history.location.state as IUser
+    state: IDownloadPageState = {...(this.props.history.location.state as IUser), favoriteCount: 0}
+    public downloadPanel = React.createRef<DownloadPanel>()
+
+    constructor(props: any){
+        super(props)
+        ipcRenderer.send("getFavoriteCount", this.state.userId)
+        ipcRenderer.on("FavoriteCountReply", (event, arg) => {
+            console.log(arg)
+            this.setState({favoriteCount: arg})
+            this.downloadPanel.current?.setState({favoriteCount: arg})
+        })
+    }
     
     render(){
         return(
@@ -19,7 +36,7 @@ export default class Download extends React.Component<RouteComponentProps>{
                 <div className="download-page">
                     <div className="download-card">
                         <UserInfo user={this.state}/>
-                        <DownloadPanel userId={this.state.userId}/>
+                        <DownloadPanel ref={this.downloadPanel} favoriteCount={this.state.favoriteCount}/>
                         <div className="download-beatmaplist">
                             <BeatmapList userId={this.state.userId}/>
                         </div>
