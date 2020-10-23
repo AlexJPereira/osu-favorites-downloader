@@ -29,6 +29,9 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
                     {this.state.favoriteList.map((favorite, index)=>(
                         <FavoriteCard key={index} favorite={favorite}/>
                     ))}
+                    <div className="beatmaplist-continue">
+                        <h1>...</h1>
+                    </div>
                 </ul>
             </div>
         )

@@ -39,6 +39,10 @@ export default class Download extends React.Component<RouteComponentProps>{
                         <div className="download-beatmaplist">
                             <BeatmapList userId={this.state.userId}/>
                         </div>
+                        <div className="download-page-download-info">
+                            <h1>Current beatmap Offset: 0</h1>
+                            <h1>Beatmaps left: 0</h1>
+                        </div>
                     </div>
                 </div>
             </div>
