@@ -26,6 +26,19 @@ export default class Download extends React.Component<RouteComponentProps>{
             this.downloadPanel.current?.setState({favoriteCount: arg})
         })
     }
+
+    buttonHandler(){
+        const downloadProperties = this.downloadPanel.current?.getDownloadProperties()
+        if(!downloadProperties)
+            alert("error")
+
+        ipcRenderer.send("downloadFavorites",
+            this.state.userId,
+            downloadProperties?.withVideo || false,
+            downloadProperties?.beatmapCount || this.state.favoriteCount,
+            downloadProperties?.offset || 0
+        )
+    }
     
     render(){
         return(
@@ -35,7 +48,7 @@ export default class Download extends React.Component<RouteComponentProps>{
                 <div className="download-page">
                     <div className="download-card">
                         <UserInfo user={this.state}/>
-                        <DownloadPanel ref={this.downloadPanel} favoriteCount={this.state.favoriteCount}/>
+                        <DownloadPanel ref={this.downloadPanel} favoriteCount={this.state.favoriteCount} buttonFunction={this.buttonHandler.bind(this)}/>
                         <div className="download-beatmaplist">
                             <BeatmapList userId={this.state.userId}/>
                         </div>

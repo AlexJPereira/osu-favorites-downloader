@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import OsuApi from '../api/osuApi'
+import { dialog } from 'electron'
 
 export interface ILoginOsu{
     username: string
@@ -36,5 +37,21 @@ ipcMain.on("getFavoriteCount", async (event, id: number) => {
     }catch(err){
         console.log(err)
         console.log("----- error on get favorite count -----")
+    }
+})
+
+ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, beatmapCount: number, offset: number) => {
+    try{
+        const path = await dialog.showOpenDialog({
+            title: "Choose the directory to save the maps",
+            properties: ["openDirectory"]
+        });
+        if (path.canceled)
+            return
+        const favoriteList = await osuApi.getUserFavouriteBeatmaps(id, offset, beatmapCount)
+        osuApi.downloadBeatmapList(favoriteList, offset, path.filePaths.pop() || './', withVideo)
+    }catch(err){
+        console.log(err)
+        console.log("----- error on download favorites -----")
     }
 })

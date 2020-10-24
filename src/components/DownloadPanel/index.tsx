@@ -9,9 +9,31 @@ export interface IDownloadPanelState{
     favoriteCount: number
 }
 
-export default class DownloadPanel extends React.Component<{favoriteCount: number}>{
+export interface IDownloadPanelProps extends IDownloadPanelState{
+    buttonFunction(event: React.MouseEvent<Element, MouseEvent> | undefined): void
+}
+
+export interface IDownloadProperties{
+    withVideo: boolean,
+    beatmapCount: number,
+    offset: number
+}
+
+export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
     state: IDownloadPanelState = {
         favoriteCount: this.props.favoriteCount
+    }
+
+    public getDownloadProperties = (): IDownloadProperties => {
+        const videoSelect = document.getElementById("video") as HTMLSelectElement
+        const offsetInput = document.getElementById("download-panel-offset-input") as HTMLInputElement
+        const countInput = document.getElementById("download-panel-count-input") as HTMLInputElement
+
+        return {
+            withVideo: videoSelect.value === "with-video" ? true : false,
+            offset: Number.parseInt(offsetInput.value),
+            beatmapCount: Number.parseInt(countInput.value)
+        }
     }
 
     render() {
@@ -27,14 +49,14 @@ export default class DownloadPanel extends React.Component<{favoriteCount: numbe
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Offset:</h1>
-                        <LoginInput id="download-panel-input" placeholder="offset" value="0"/>
+                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0"/>
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Count:</h1>
-                        <LoginInput id="download-panel-input" placeholder="offset" value="0"/>
+                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0"/>
                     </div>
                     <div className="download-panel-offset-container">
-                        <LoginButton text="Download" onClick={()=>{alert("test")}}/>
+                        <LoginButton text="Download" onClick={this.props.buttonFunction}/>
                     </div>
                 </div>
             </div>

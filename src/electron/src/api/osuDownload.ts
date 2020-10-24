@@ -4,6 +4,7 @@ import fs from 'fs'
 import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import { IBeatmapIdList } from './osuFavoriteList'
+import { IpcMain } from 'electron'
 
 async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: boolean = false){
     try{
@@ -40,7 +41,7 @@ async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], 
 
 async function saveBeatmap(beatmap: AxiosResponse, path: string, beatmapId: number){
     return new Promise((resolve, reject) => {
-        const dest = fs.createWriteStream(path + beatmapId + ".osz");
+        const dest = fs.createWriteStream(path + "\\" + beatmapId + ".osz");
         beatmap.data.pipe(dest)
         beatmap.data.on("end", () => resolve());
         dest.on("error", () => reject("ERROR ON ARCHIVE"));

@@ -4,7 +4,7 @@
     margin-top: 30px;
     border-radius: 15px;
     align-items: center;
-    padding: 10px 40px 10px 40px;
+    padding: 10px 30px 10px 30px;
     width: calc(100% - 20px);
     font-family: 'Tahoma';
     color: white;
@@ -25,7 +25,7 @@
     column-gap: 7px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: 10px;
 }
 
