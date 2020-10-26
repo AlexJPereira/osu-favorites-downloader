@@ -25,6 +25,7 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
     render(){
         return(
             <div className="beatmaplist-container">
+                <progress id="beatmaplist-progress" value="0" max="100"/>
                 <ul className="beatmaplist-list">
                     {this.state.favoriteList.map((favorite, index)=>(
                         <FavoriteCard key={index} favorite={favorite}/>
