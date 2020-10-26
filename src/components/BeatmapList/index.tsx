@@ -12,7 +12,10 @@ export interface IBeatmapListProps{
 
 export default class BeatmapList extends React.Component<IBeatmapListProps>{
     state = {
-        favoriteList: [] as IBeatmapFavoriteList[]
+        favoriteList: [] as IBeatmapFavoriteList[],
+        progress: 0,
+        offset: 0,
+        count: 5
     }
 
     constructor(props: IBeatmapListProps){
@@ -21,14 +24,34 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
         ipcRenderer.on("getFavoriteListReply", (event, beatmapList: IBeatmapFavoriteList[])=>{
             this.setState({ favoriteList: beatmapList })
         })
+        ipcRenderer.on("progressUpdate", (event, progress) => {
+            this.setState({progress: progress})
+        })
+        ipcRenderer.on("finishedMapDownload", (event, mapId) => {
+            const mapCard = document.getElementById(mapId+"")
+            if(mapCard)
+                mapCard.className += " delete"
+            setTimeout(() => {
+                if(mapCard)
+                    mapCard.className = mapCard.className.split(' ').shift() || "favoritecard-container"
+                this.setState({
+                    progress: 0,
+                    offset: this.state.offset + 1
+                })
+            }, 600)
+        })
     }
     render(){
         return(
             <div className="beatmaplist-container">
+                <progress id="beatmaplist-progress" value={this.state.progress} max="100"/>
                 <ul className="beatmaplist-list">
-                    {this.state.favoriteList.map((favorite, index)=>(
-                        <FavoriteCard key={index} favorite={favorite}/>
-                    ))}
+                    {this.state.favoriteList
+                        .slice(this.state.offset, this.state.offset + this.state.count)
+                        .map((favorite, index)=>(
+                            <FavoriteCard key={index} favorite={favorite}/>
+                        ))
+                    }
                     <div className="beatmaplist-continue">
                         <h1>...</h1>
                     </div>

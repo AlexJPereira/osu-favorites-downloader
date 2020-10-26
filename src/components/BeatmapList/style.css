@@ -4,6 +4,16 @@
     padding: 20px;
 }
 
+#beatmaplist-progress{
+    width: 100%;
+    border-radius: 1px;
+    height: 3px;
+}
+
+#beatmaplist-progress::-webkit-progress-value {
+    background:aqua;
+}
+
 .beatmaplist-list{
     overflow-y: scroll;
     height: 100%;
