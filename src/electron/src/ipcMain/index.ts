@@ -49,7 +49,7 @@ ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, be
         if (path.canceled)
             return
         const favoriteList = await osuApi.getUserFavouriteBeatmaps(id, offset, beatmapCount)
-        osuApi.downloadBeatmapList(favoriteList, offset, path.filePaths.pop() || './', withVideo)
+        osuApi.downloadBeatmapList(favoriteList, 0, path.filePaths.pop() || './', withVideo, event)
     }catch(err){
         console.log(err)
         console.log("----- error on download favorites -----")

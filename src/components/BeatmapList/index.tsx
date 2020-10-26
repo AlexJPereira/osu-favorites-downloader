@@ -12,7 +12,8 @@ export interface IBeatmapListProps{
 
 export default class BeatmapList extends React.Component<IBeatmapListProps>{
     state = {
-        favoriteList: [] as IBeatmapFavoriteList[]
+        favoriteList: [] as IBeatmapFavoriteList[],
+        progress: 0
     }
 
     constructor(props: IBeatmapListProps){
@@ -21,11 +22,14 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
         ipcRenderer.on("getFavoriteListReply", (event, beatmapList: IBeatmapFavoriteList[])=>{
             this.setState({ favoriteList: beatmapList })
         })
+        ipcRenderer.on("progressUpdate", (event, progress) => {
+            this.setState({progress: progress})
+        })
     }
     render(){
         return(
             <div className="beatmaplist-container">
-                <progress id="beatmaplist-progress" value="0" max="100"/>
+                <progress id="beatmaplist-progress" value={this.state.progress} max="100"/>
                 <ul className="beatmaplist-list">
                     {this.state.favoriteList.map((favorite, index)=>(
                         <FavoriteCard key={index} favorite={favorite}/>
