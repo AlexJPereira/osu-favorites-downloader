@@ -8,6 +8,13 @@
     overflow-y: hidden;
 }
 
+.favoritecard-container.delete{
+    transition: height 0.5s 0s, opacity 0.5s 0s;
+    height: 0;
+    margin-bottom: 0;
+    opacity: 0;
+}
+
 .favoritecard-container > img{
     position: absolute;
     width: 100%;

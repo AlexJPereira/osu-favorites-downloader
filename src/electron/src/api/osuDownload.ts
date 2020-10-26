@@ -4,16 +4,7 @@ import fs from 'fs'
 import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import { IBeatmapIdList } from './osuFavoriteList'
-import { ipcMain } from 'electron'
 import { IpcMainEvent } from 'electron/main'
-
-axios({
-    url: "https://osu.ppy.sh/beatmapsets/",
-    onDownloadProgress(progressEvent){
-        console.log(progressEvent)
-        //console.log(progressEvent.target, progressEvent.loaded, progressEvent.total, progressEvent.lengthComputable)
-    }
-})
 
 async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: boolean = false){
     try{
@@ -43,6 +34,7 @@ async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], 
         }else{
             return false
         }
+        event?.reply("finishedMapDownload", item.id)
     }
     return true
 }

@@ -10,7 +10,7 @@ export interface IFavoriteCardProps{
 export default class FavoriteCard extends React.Component<IFavoriteCardProps>{
     render(){
         return(
-            <li className="favoritecard-container">
+            <li id={this.props.favorite.id.toString() || "0"} className="favoritecard-container">
                 <img src={this.props.favorite.covers.cover} alt="favorite-cover"></img>
                 <div className="favoritecard-details">
                     <div className="favoritecard-top">
