@@ -11,12 +11,19 @@ import DownloadPanel from '../../components/DownloadPanel'
 const { ipcRenderer } = window.require("electron");
 
 export interface IDownloadPageState extends IUser{
-    favoriteCount: number
+    favoriteCount: number,
+    currentOffset: number,
+    currentCount: number
 }
 
 export default class Download extends React.Component<RouteComponentProps>{
-    state: IDownloadPageState = {...(this.props.history.location.state as IUser), favoriteCount: 0}
+    state: IDownloadPageState = {...(this.props.history.location.state as IUser),
+        favoriteCount: 0,
+        currentCount: 0,
+        currentOffset: 0
+    }
     public downloadPanel = React.createRef<DownloadPanel>()
+    public favoriteList = React.createRef<BeatmapList>()
 
     constructor(props: any){
         super(props)
@@ -40,12 +47,15 @@ export default class Download extends React.Component<RouteComponentProps>{
         )
     }
 
-    private onChangeCount = () => {
-        alert("count")
-    }
-
-    private onChangeOffset = () => {
-        alert("offset")
+    private onChangeInput = () => {
+        const downloadProperties = this.downloadPanel.current?.getDownloadProperties()
+        if(downloadProperties){
+            this.setState({
+                currentCount: downloadProperties.beatmapCount,
+                currentOffset: downloadProperties.offset
+            })
+            this.favoriteList.current?.updateFavoriteList(downloadProperties?.offset, downloadProperties?.beatmapCount)
+        }
     }
     
     render(){
@@ -59,14 +69,14 @@ export default class Download extends React.Component<RouteComponentProps>{
                         <DownloadPanel ref={this.downloadPanel} 
                             favoriteCount={this.state.favoriteCount} 
                             buttonFunction={this.buttonHandler.bind(this)}
-                            onChangeCount={this.onChangeCount}
-                            onChangeOffset={this.onChangeOffset}/>
+                            onChangeCount={this.onChangeInput}
+                            onChangeOffset={this.onChangeInput}/>
                         <div className="download-beatmaplist">
-                            <BeatmapList userId={this.state.userId}/>
+                            <BeatmapList ref={this.favoriteList} userId={this.state.userId}/>
                         </div>
                         <div className="download-page-download-info">
-                            <h1>Current beatmap Offset: 0</h1>
-                            <h1>Beatmaps left: 0</h1>
+                            <h1>Current beatmap Offset: {this.state.currentOffset}</h1>
+                            <h1>Beatmaps left: {this.state.currentCount}</h1>
                         </div>
                     </div>
                 </div>

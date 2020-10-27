@@ -41,6 +41,14 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
             }, 600)
         })
     }
+
+    updateFavoriteList(offset: number, count: number){
+        this.setState({
+            offset: offset,
+            count: count < 5 ? count : 5
+        })
+    }
+
     render(){
         return(
             <div className="beatmaplist-container">
