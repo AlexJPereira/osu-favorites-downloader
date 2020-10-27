@@ -13,7 +13,7 @@ axiosCookieJarSupport(axios)
 
 export default class OsuApi{
     protected cookieJar = new tough.CookieJar(undefined, { rejectPublicSuffixes: false })
-    protected globalDelay = 1000
+    protected globalDelay = 500
     protected maxFavoriteCallCount = 50
     protected xsrfToken = ""
     protected xsrfTokenName = ""
@@ -26,7 +26,7 @@ export default class OsuApi{
 
     getFavoriteCount = OsuFavoriteList.getFavoriteCount.bind(this)
     getUserFavouriteBeatmaps = OsuFavoriteList.getUserFavouriteBeatmaps.bind(this)
-    getUserFavoriteBeatmapsIds = osuFavoriteList.getUserFavoriteBeatmapsIds.bind(this)
+    getUserCompleteFavoriteBeatmaps = osuFavoriteList.getUserCompleteFavoriteBeatmaps.bind(this)
 
     downloadSingleBeatmap = OsuDownload.downloadSingleBeatmap.bind(this)
     downloadBeatmapList = OsuDownload.downloadBeatmapList.bind(this)

@@ -24,6 +24,7 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
         ipcRenderer.send("getFavoriteList", props.userId)
         ipcRenderer.on("getFavoriteListReply", (event, beatmapList: IBeatmapFavoriteList[])=>{
             this.setState({ favoriteList: beatmapList })
+            console.log(beatmapList.length)
         })
         ipcRenderer.on("progressUpdate", (event, progress) => {
             this.setState({progress: progress})

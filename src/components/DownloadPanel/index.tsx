@@ -76,7 +76,7 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Offset:</h1>
-                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number" minValue={0} maxValue={this.props.favoriteCount}
+                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number" minValue={0} maxValue={this.props.favoriteCount - 1}
                             onChange={() => this.delayControl(this.props.onChangeOffset)}/>
                     </div>
                     <div className="download-panel-offset-container">
