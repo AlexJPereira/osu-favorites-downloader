@@ -11,6 +11,8 @@ export interface IDownloadPanelState{
 
 export interface IDownloadPanelProps extends IDownloadPanelState{
     buttonFunction(event: React.MouseEvent<Element, MouseEvent> | undefined): void
+    onChangeCount: Function
+    onChangeOffset: Function
 }
 
 export interface IDownloadProperties{
@@ -24,6 +26,10 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
         favoriteCount: this.props.favoriteCount
     }
 
+    private isChanging = false
+    private inputChangeUpdateDelay = 3000
+    private changeTimeout: number = 0
+
     public getDownloadProperties = (): IDownloadProperties => {
         const videoSelect = document.getElementById("video") as HTMLSelectElement
         const offsetInput = document.getElementById("download-panel-offset-input") as HTMLInputElement
@@ -36,12 +42,20 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
         }
     }
 
-    private onChangeCount = () => {
-        alert("count")
-    }
-
-    private onChangeOffset = () => {
-        alert("offset")
+    private delayControl = (callback: Function): any => {
+        if(!this.isChanging){
+            this.isChanging = true
+            this.changeTimeout = window.setTimeout(() => {
+                this.isChanging = false
+                callback()
+            }, this.inputChangeUpdateDelay)
+        }else{
+            clearTimeout(this.changeTimeout)
+            this.changeTimeout = window.setTimeout(() => {
+                this.isChanging = false
+                callback()
+            }, this.inputChangeUpdateDelay)
+        }
     }
 
     render() {
@@ -57,11 +71,11 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Offset:</h1>
-                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number" onChange={this.onChangeOffset}/>
+                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number" onChange={() => this.delayControl(this.props.onChangeOffset)}/>
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Count:</h1>
-                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0" type="number" onChange={this.onChangeCount}/>
+                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0" type="number" onChange={() => this.delayControl(this.props.onChangeCount)}/>
                     </div>
                     <div className="download-panel-offset-container">
                         <LoginButton text="Download" onClick={this.props.buttonFunction}/>
