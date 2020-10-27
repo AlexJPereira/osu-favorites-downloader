@@ -57,6 +57,13 @@ export default class Download extends React.Component<RouteComponentProps>{
             this.favoriteList.current?.updateFavoriteList(downloadProperties?.offset, downloadProperties?.beatmapCount)
         }
     }
+
+    updateDownloadInfo = () => {
+        this.setState({
+            currentCount: this.state.currentCount - 1,
+            currentOffset: this.state.currentOffset + 1
+        })
+    }
     
     render(){
         return(
@@ -72,7 +79,7 @@ export default class Download extends React.Component<RouteComponentProps>{
                             onChangeCount={this.onChangeInput}
                             onChangeOffset={this.onChangeInput}/>
                         <div className="download-beatmaplist">
-                            <BeatmapList ref={this.favoriteList} userId={this.state.userId}/>
+                            <BeatmapList ref={this.favoriteList} userId={this.state.userId} updateDownloadInfo={this.updateDownloadInfo}/>
                         </div>
                         <div className="download-page-download-info">
                             <h1>Current beatmap Offset: {this.state.currentOffset}</h1>
