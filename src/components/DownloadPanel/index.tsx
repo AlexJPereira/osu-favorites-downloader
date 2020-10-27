@@ -36,6 +36,14 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
         }
     }
 
+    private onChangeCount = () => {
+        alert("count")
+    }
+
+    private onChangeOffset = () => {
+        alert("offset")
+    }
+
     render() {
         return(
             <div className="download-panel-container">
@@ -49,11 +57,11 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Offset:</h1>
-                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number"/>
+                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number" onChange={this.onChangeOffset}/>
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Count:</h1>
-                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0" type="number"/>
+                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0" type="number" onChange={this.onChangeCount}/>
                     </div>
                     <div className="download-panel-offset-container">
                         <LoginButton text="Download" onClick={this.props.buttonFunction}/>

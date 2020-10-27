@@ -8,10 +8,16 @@ interface ILoginInputProps{
     id?: string
     value?: string
     type?: string
+    onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
 export default function(props: ILoginInputProps){
     return (
-        <input id={props.id} className="login-input" placeholder={props.placeholder} type={props.password ? "password" : props.type ? props.type : ""} defaultValue={props.value}/>
+        <input id={props.id} 
+            className="login-input" 
+            placeholder={props.placeholder} 
+            type={props.password ? "password" : props.type ? props.type : ""} 
+            defaultValue={props.value}
+            onChange={props.onChange}/>
     )
 }
