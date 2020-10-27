@@ -43,25 +43,21 @@ async function getUserFavouriteBeatmaps(this: OsuApi, userId: number, offset: nu
     return favoritesList
 }
 
-async function getUserFavoriteBeatmapsIds(this: OsuApi, userId: number, offset: number, favoriteCount: number){
-    const favoriteIds: IBeatmapIdList[] = []
+async function getUserCompleteFavoriteBeatmaps(this: OsuApi, userId: number, offset: number, favoriteCount: number){
+    const favoriteIds: IBeatmapFavoriteList[] = []
     while(offset + this.maxFavoriteCallCount < favoriteCount){
         const list = await this.getUserFavouriteBeatmaps(userId, offset, this.maxFavoriteCallCount)
-        list.forEach(beatmap => {
-            favoriteIds.push({id: beatmap.id})
-        })
+        favoriteIds.push(...list)
         offset += this.maxFavoriteCallCount
         await delay(this.globalDelay)
     }
     const finalList = await this.getUserFavouriteBeatmaps(userId, offset, favoriteCount - offset)
-    finalList.forEach(beatmap => {
-        favoriteIds.push({id: beatmap.id})
-    })
+    favoriteIds.push(...finalList)
     return favoriteIds
 }
 
 export default {
     getFavoriteCount,
     getUserFavouriteBeatmaps,
-    getUserFavoriteBeatmapsIds
+    getUserCompleteFavoriteBeatmaps
 }
