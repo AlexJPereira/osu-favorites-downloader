@@ -8,6 +8,8 @@ interface ILoginInputProps{
     id?: string
     value?: string
     type?: string
+    minValue?: number
+    maxValue?: number
     onChange?(event: React.ChangeEvent<HTMLInputElement>, args?: any): void
 }
 
@@ -18,6 +20,8 @@ export default function(props: ILoginInputProps){
             placeholder={props.placeholder} 
             type={props.password ? "password" : props.type ? props.type : ""} 
             defaultValue={props.value}
-            onChange={props.onChange}/>
+            onChange={props.onChange}
+            min={props.minValue}
+            max={props.maxValue}/>
     )
 }

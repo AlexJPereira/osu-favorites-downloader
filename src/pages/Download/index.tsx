@@ -36,15 +36,15 @@ export default class Download extends React.Component<RouteComponentProps>{
 
     private buttonHandler(){
         const downloadProperties = this.downloadPanel.current?.getDownloadProperties()
-        if(!downloadProperties)
-            alert("error")
-
-        ipcRenderer.send("downloadFavorites",
-            this.state.userId,
-            downloadProperties?.withVideo || false,
-            downloadProperties?.beatmapCount || this.state.favoriteCount,
-            downloadProperties?.offset || 0
-        )
+        if(downloadProperties){
+            this.favoriteList.current?.updateFavoriteList(downloadProperties?.offset, downloadProperties?.beatmapCount)
+            ipcRenderer.send("downloadFavorites",
+                this.state.userId,
+                downloadProperties?.withVideo || false,
+                downloadProperties?.beatmapCount || this.state.favoriteCount,
+                downloadProperties?.offset || 0
+            )
+        }
     }
 
     private onChangeInput = () => {
