@@ -8,7 +8,7 @@ interface ILoginInputProps{
     id?: string
     value?: string
     type?: string
-    onChange?(event: React.ChangeEvent<HTMLInputElement>): void
+    onChange?(event: React.ChangeEvent<HTMLInputElement>, args?: any): void
 }
 
 export default function(props: ILoginInputProps){
