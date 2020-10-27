@@ -49,11 +49,11 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Offset:</h1>
-                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0"/>
+                        <LoginInput id="download-panel-offset-input" placeholder="offset" value="0" type="number"/>
                     </div>
                     <div className="download-panel-offset-container">
                         <h1>Count:</h1>
-                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0"/>
+                        <LoginInput id="download-panel-count-input" placeholder="offset" value="0" type="number"/>
                     </div>
                     <div className="download-panel-offset-container">
                         <LoginButton text="Download" onClick={this.props.buttonFunction}/>
