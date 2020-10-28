@@ -16,7 +16,7 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
         favoriteList: [] as IBeatmapFavoriteList[],
         progress: 0,
         offset: 0,
-        count: 5
+        count: 6
     }
 
     constructor(props: IBeatmapListProps){

@@ -23,7 +23,7 @@ ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
 ipcMain.on("getFavoriteList", async (event, id: number) => {
     try{
         const favoriteCount = await osuApi.getFavoriteCount(id)
-        const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 5)
+        const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 6)
         event.reply("getFavoriteListReply", initialList)
         const fullList = await osuApi.getUserCompleteFavoriteBeatmaps(id, 0, favoriteCount)
         event.reply("getFavoriteListReply", fullList)
