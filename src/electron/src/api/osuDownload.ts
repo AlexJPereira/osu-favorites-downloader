@@ -1,10 +1,19 @@
 import axios, { AxiosResponse } from 'axios'
 import fs from 'fs'
+import eventListener from 'events'
+import { ipcMain } from 'electron'
 
 import OsuApi from './osuApi'
 import delay from '../utils/delay'
 import { IBeatmapIdList } from './osuFavoriteList'
 import { IpcMainEvent } from 'electron/main'
+
+let listener = new eventListener()
+
+ipcMain.on("stopDownload", event => {
+    console.log("download stopped")
+    listener.emit("stopDownload")
+})
 
 async function downloadSingleBeatmap(this: OsuApi, beatmapId: number, noVideo: boolean = false){
     try{
@@ -29,8 +38,16 @@ async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], 
         const item = beatmapList[i]
         if(item){
             const beatmap = await this.downloadSingleBeatmap(item.id, noVideo)
-            if(beatmap) await saveBeatmap(beatmap, path, item.id, event)
-            else return false
+            if(beatmap){
+                try{
+                    await saveBeatmap(beatmap, path, item.id, event)
+                }catch(err){
+                    event?.reply("downloadCanceled")
+                    return false
+                }
+            }else{
+                return false
+            }   
         }else{
             return false
         }
@@ -41,7 +58,7 @@ async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], 
 
 async function saveBeatmap(beatmap: AxiosResponse, path: string, beatmapId: number, event?: IpcMainEvent){
     return new Promise((resolve, reject) => {
-        const dest = fs.createWriteStream(path + "\\" + beatmapId + ".osz");
+        const dest = fs.createWriteStream(path + "\\" + beatmapId + ".osz")
         beatmap.data.pipe(dest)
         
         const mapSize = Number.parseInt(beatmap.data.headers['content-length'])
@@ -51,14 +68,21 @@ async function saveBeatmap(beatmap: AxiosResponse, path: string, beatmapId: numb
             if(event) event.reply("progressUpdate", progress)
         }, 500)
 
+        listener.on("stopDownload", () => {
+            clearInterval(updateProgress)
+            dest.destroy()
+            fs.unlinkSync(dest.path)
+            listener = new eventListener()
+            reject()
+        })
+
         dest.on("finish", () => {
             console.log("finished download of " + beatmapId)
             clearInterval(updateProgress)
+            listener = new eventListener()
             resolve()
         })
         dest.on("error", () => reject("ERROR ON ARCHIVE"));
-
-        
     })
 }
 

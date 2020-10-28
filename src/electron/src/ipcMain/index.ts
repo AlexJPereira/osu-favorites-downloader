@@ -1,13 +1,37 @@
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import OsuApi from '../api/osuApi'
+import eventListener  from 'events'
 import { dialog } from 'electron'
+import { IBeatmapFavoriteList } from '../api/osuFavoriteList'
 
 export interface ILoginOsu{
     username: string
     password: string
 }
 
+let listener = new eventListener()
 const osuApi = new OsuApi()
+let fullList: IBeatmapFavoriteList[]
+let globalWindow: BrowserWindow
+
+async function fullListLoad(){
+    return new Promise((resolve) => {
+        if(fullList && fullList.length > 0)
+            resolve()
+        listener.on("listLoaded", () => {
+            listener = new eventListener()
+            resolve()
+        })
+        if(fullList && fullList.length > 0){
+            listener = new eventListener()
+            resolve()
+        }
+    })
+}
+
+export function mainWindow(window: BrowserWindow){
+    globalWindow = window
+}
 
 ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
     try{
@@ -23,9 +47,10 @@ ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
 ipcMain.on("getFavoriteList", async (event, id: number) => {
     try{
         const favoriteCount = await osuApi.getFavoriteCount(id)
-        const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 5)
+        const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 6)
         event.reply("getFavoriteListReply", initialList)
-        const fullList = await osuApi.getUserCompleteFavoriteBeatmaps(id, 0, favoriteCount)
+        fullList = await osuApi.getUserCompleteFavoriteBeatmaps(id, 0, favoriteCount)
+        listener.emit("listLoaded")
         event.reply("getFavoriteListReply", fullList)
     }catch(err){
         console.log(err)
@@ -45,16 +70,22 @@ ipcMain.on("getFavoriteCount", async (event, id: number) => {
 
 ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, beatmapCount: number, offset: number) => {
     try{
-        const path = await dialog.showOpenDialog({
+        const path = await dialog.showOpenDialog(globalWindow, {
             title: "Choose the directory to save the maps",
             properties: ["openDirectory"]
         });
-        if (path.canceled)
+        if (path.canceled){
+            event.reply("downloadCanceled")
             return
-        const favoriteList = await osuApi.getUserFavouriteBeatmaps(id, offset, beatmapCount)
-        osuApi.downloadBeatmapList(favoriteList, 0, path.filePaths.pop() || './', withVideo, event)
+        }
+
+        await fullListLoad()
+        event.reply("finishLoading")
+        console.log("list loaded")
+        await osuApi.downloadBeatmapList(fullList.slice(offset, offset+beatmapCount), 0, path.filePaths.pop() || './', withVideo, event)
     }catch(err){
         console.log(err)
         console.log("----- error on download favorites -----")
     }
 })
+
