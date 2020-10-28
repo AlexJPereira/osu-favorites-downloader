@@ -49,7 +49,8 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
     updateFavoriteList(offset: number, count: number){
         this.setState({
             offset: offset,
-            count: count
+            count: count,
+            progress: 0
         })
     }
 

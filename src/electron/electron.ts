@@ -2,7 +2,7 @@ import {app, BrowserWindow} from 'electron'
 import path from 'path'
 import isDev from 'electron-is-dev'
 
-import './src/ipcMain'
+import { mainWindow } from './src/ipcMain'
 
 const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`;
 
@@ -20,6 +20,7 @@ function createWindow () {
   win.loadURL(startURL)
 
   win.webContents.openDevTools()
+  mainWindow(win)
 }
 
 app.whenReady().then(createWindow)
