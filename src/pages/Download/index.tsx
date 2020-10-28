@@ -66,6 +66,7 @@ export default class Download extends React.Component<RouteComponentProps>{
         }else{
             this.setState({loading: true})
             const downloadProperties = this.downloadPanel.current?.getDownloadProperties()
+            this.setState({currentCount: downloadProperties?.beatmapCount, currentOffset: downloadProperties?.offset})
             if(downloadProperties){
                 this.favoriteList.current?.updateFavoriteList(downloadProperties?.offset, downloadProperties?.beatmapCount)
                 ipcRenderer.send("downloadFavorites",
