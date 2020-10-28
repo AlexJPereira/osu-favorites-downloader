@@ -54,7 +54,7 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
     }
 
     get continueText(){
-        if(this.state.count >= 5) return "..."
+        if(this.state.count > 5) return "..."
         if(this.state.count === 0) return "Download Finished!"
         return ""
     }
@@ -71,7 +71,7 @@ export default class BeatmapList extends React.Component<IBeatmapListProps>{
                         ))
                     }
                     <div className="beatmaplist-continue">
-                        <h1>{this.continueText}</h1>
+                        <h1 style={{visibility: (this.state.count <= 5 && this.state.count !== 0) ? 'hidden' : 'visible'}}>{this.continueText}</h1>
                     </div>
                 </ul>
             </div>
