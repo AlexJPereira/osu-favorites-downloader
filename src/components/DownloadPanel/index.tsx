@@ -13,7 +13,8 @@ export interface IDownloadPanelProps extends IDownloadPanelState{
     buttonFunction(event: React.MouseEvent<Element, MouseEvent> | undefined): void
     onChangeCount: Function
     onChangeOffset: Function
-    downloading?: boolean
+    downloading?: boolean,
+    loading?: boolean
 }
 
 export interface IDownloadProperties{
@@ -64,6 +65,14 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
         return offsetInput ? Number.parseInt(offsetInput.value) : 0
     }
 
+    get buttonText(){
+        if(this.props.loading)
+            return "Loading"
+        if(this.props.downloading)
+            return "Stop"
+        return "Download"
+    }
+
     render() {
         return(
             <div className="download-panel-container">
@@ -85,8 +94,9 @@ export default class DownloadPanel extends React.Component<IDownloadPanelProps>{
                         <LoginInput id="download-panel-count-input" placeholder="count" value="1" type="number" minValue={1} maxValue={this.props.favoriteCount - this.currentOffset}
                             onChange={() => this.delayControl(this.props.onChangeCount)}/>
                     </div>
-                    <div className="download-panel-offset-container">
-                        <LoginButton text={this.props.downloading ? "Stop" : "Download"} onClick={this.props.buttonFunction}/>
+                    <div className="download-panel-offset-container button-container">
+                        <div className={(this.props.loading ? "loading " : "") + "loader"}></div>
+                        <LoginButton text={this.buttonText} onClick={this.props.buttonFunction}/>
                     </div>
                 </div>
             </div>

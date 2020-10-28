@@ -1,5 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import OsuApi from '../api/osuApi'
+import eventListener  from 'events'
 import { dialog } from 'electron'
 import { IBeatmapFavoriteList } from '../api/osuFavoriteList'
 
@@ -8,20 +9,24 @@ export interface ILoginOsu{
     password: string
 }
 
+let listener = new eventListener()
 const osuApi = new OsuApi()
 let fullList: IBeatmapFavoriteList[]
-let interval: NodeJS.Timeout
 let globalWindow: BrowserWindow
 
 async function fullListLoad(){
-    return new Promise((resolve)=>{
-        interval = setInterval(()=>{
-            if(fullList && fullList.length > 0){
-                console.log("download enabled")
-                resolve()
-            }
-        },300)
-    }) 
+    return new Promise((resolve) => {
+        if(fullList && fullList.length > 0)
+            resolve()
+        listener.on("listLoaded", () => {
+            listener = new eventListener()
+            resolve()
+        })
+        if(fullList && fullList.length > 0){
+            listener = new eventListener()
+            resolve()
+        }
+    })
 }
 
 export function mainWindow(window: BrowserWindow){
@@ -45,6 +50,7 @@ ipcMain.on("getFavoriteList", async (event, id: number) => {
         const initialList = await osuApi.getUserFavouriteBeatmaps(id, 0, 6)
         event.reply("getFavoriteListReply", initialList)
         fullList = await osuApi.getUserCompleteFavoriteBeatmaps(id, 0, favoriteCount)
+        listener.emit("listLoaded")
         event.reply("getFavoriteListReply", fullList)
     }catch(err){
         console.log(err)
@@ -74,7 +80,8 @@ ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, be
         }
 
         await fullListLoad()
-        clearInterval(interval)
+        event.reply("finishLoading")
+        console.log("list loaded")
         await osuApi.downloadBeatmapList(fullList.slice(offset, offset+beatmapCount), 0, path.filePaths.pop() || './', withVideo, event)
     }catch(err){
         console.log(err)

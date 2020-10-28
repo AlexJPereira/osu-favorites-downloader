@@ -14,7 +14,8 @@ export interface IDownloadPageState extends IUser{
     favoriteCount: number,
     currentOffset: number,
     currentCount: number,
-    downloading: boolean
+    downloading: boolean,
+    loading: boolean
 }
 
 export default class Download extends React.Component<RouteComponentProps>{
@@ -22,7 +23,8 @@ export default class Download extends React.Component<RouteComponentProps>{
         favoriteCount: 0,
         currentCount: 1,
         currentOffset: 0,
-        downloading: false
+        downloading: false,
+        loading: false
     }
     public downloadPanel = React.createRef<DownloadPanel>()
     public favoriteList = React.createRef<BeatmapList>()
@@ -38,7 +40,10 @@ export default class Download extends React.Component<RouteComponentProps>{
             this.favoriteList.current?.setState({progress: 0})
             this.setCountInputValue(this.state.currentCount)
             this.setOffsetInputValue(this.state.currentOffset)
-            this.setState({downloading: false})
+            this.setState({downloading: false, loading: false})
+        })
+        ipcRenderer.on("finishLoading", event => {
+            this.setState({loading: false})
         })
     }
 
@@ -53,10 +58,13 @@ export default class Download extends React.Component<RouteComponentProps>{
     }
 
     private buttonHandler(){
+        if(this.state.loading)
+            return
         if(this.state.downloading){
             ipcRenderer.send("stopDownload")
             this.setState({downloading: false})
         }else{
+            this.setState({loading: true})
             const downloadProperties = this.downloadPanel.current?.getDownloadProperties()
             if(downloadProperties){
                 this.favoriteList.current?.updateFavoriteList(downloadProperties?.offset, downloadProperties?.beatmapCount)
@@ -103,7 +111,8 @@ export default class Download extends React.Component<RouteComponentProps>{
                             buttonFunction={this.buttonHandler.bind(this)}
                             onChangeCount={this.onChangeInput}
                             onChangeOffset={this.onChangeInput}
-                            downloading={this.state.downloading}/>
+                            downloading={this.state.downloading}
+                            loading={this.state.loading}/>
                         <div className="download-beatmaplist">
                             <BeatmapList ref={this.favoriteList} userId={this.state.userId} updateDownloadInfo={this.updateDownloadInfo}/>
                         </div>
