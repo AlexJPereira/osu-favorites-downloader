@@ -19,7 +19,7 @@ export interface IDownloadPageState extends IUser{
 export default class Download extends React.Component<RouteComponentProps>{
     state: IDownloadPageState = {...(this.props.history.location.state as IUser),
         favoriteCount: 0,
-        currentCount: 0,
+        currentCount: 1,
         currentOffset: 0
     }
     public downloadPanel = React.createRef<DownloadPanel>()
