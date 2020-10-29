@@ -45,6 +45,7 @@
 .favoritecard-countdetails > div > label{
     margin-right: 10px;
     text-shadow: 1px 1px rgb(0, 0, 0);
+    font-family: 'Tahoma';
 }
 
 .favoritecard-playcount > i{
