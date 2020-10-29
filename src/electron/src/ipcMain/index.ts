@@ -84,6 +84,11 @@ ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, be
         }
 
         await fullListLoad()
+        if(offset + beatmapCount > fullList.length){
+            Error.sendErrorMessage(event, "Error, the offset plus the beatmap count must be less than the favorite count.")
+            event.reply("downloadCanceled")
+            return
+        }
         event.reply("finishLoading")
         console.log("list loaded")
         await osuApi.downloadBeatmapList(fullList.slice(offset, offset+beatmapCount), 0, path.filePaths.pop() || './', withVideo, event)
