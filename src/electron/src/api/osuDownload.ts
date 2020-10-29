@@ -37,12 +37,12 @@ async function downloadBeatmapList(this: OsuApi, beatmapList: IBeatmapIdList[], 
                 const beatmap = await this.downloadSingleBeatmap(item.id, noVideo)
                 if(beatmap){
                     await saveBeatmap(beatmap, path, item.id, event)
-                    event?.reply("downloadCanceled")
+                    await delay(this.globalDelay*3)
                 }else{
                     return false
                 } 
             }catch(err){
-                if(event && err !== "download-stopped" && !Error.sendInternetErrorMessage(err, event))
+                if(event && err !== "download-stopped" && !Error.sendInternetErrorMessage(err, event, true))
                     Error.sendFileError(event)
                 event?.reply("downloadCanceled")
                 return false

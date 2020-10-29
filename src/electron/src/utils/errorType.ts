@@ -14,10 +14,13 @@ export default {
     sendErrorMessage(event: IpcMainEvent, message: string, highlightComponentId?: string){
         event.reply("errorDialog", message, highlightComponentId)
     },
-    sendInternetErrorMessage(err: any, event: IpcMainEvent){
+    sendInternetErrorMessage(err: any, event: IpcMainEvent, alreadyLogged?: boolean){
         switch(this.getErrorStatusCode(err)){
             case ErrorType.WrongPassword:
-                this.sendErrorMessage(event, "Wrong Password.", "password-input");
+                if(alreadyLogged)
+                    this.sendErrorMessage(event, "Osu server is blocking your connection due to excessive number of downloads, please try again later.");
+                else 
+                    this.sendErrorMessage(event, "Wrong Password.", "password-input");
                 return true
             case ErrorType.ReCaptcha:
                 this.sendErrorMessage(event, "A ReCaptch is blocking your login, login on Osu using the Browser.");
