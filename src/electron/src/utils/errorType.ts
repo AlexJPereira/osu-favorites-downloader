@@ -9,7 +9,7 @@ export enum ErrorType{
 
 export default {
     getErrorStatusCode(err: any){
-        return (err.request && err.request.res) ? err.request.res.statusCode.toString() : "-1";
+        return (err && err.request && err.request.res) ? err.request.res.statusCode.toString() : (err && err.request ? "-1" : "-2");
     },
     sendErrorMessage(event: IpcMainEvent, message: string, highlightComponentId?: string){
         event.reply("errorDialog", message, highlightComponentId)
@@ -31,6 +31,9 @@ export default {
             default:
                 return false
         }
+    },
+    sendFileError(event: IpcMainEvent){
+        this.sendErrorMessage(event, "Error on directory selected, choose another directory.");
     },
     sendUnknownError(err: any, event: IpcMainEvent){
         this.sendErrorMessage(event, "Unknown error, try again.");
