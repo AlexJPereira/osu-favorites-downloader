@@ -12,8 +12,8 @@ class Login extends Component<RouteComponentProps>{
 
     constructor(props: RouteComponentProps){
         super(props)
-        ipcRenderer.on("loginOsuReply", (event, arg)=>{
-            props.history.push("/download", arg);
+        ipcRenderer.on("loginOsuReply", (event)=>{
+            props.history.push("/download");
         })
     }
 

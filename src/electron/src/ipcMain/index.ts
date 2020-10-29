@@ -3,7 +3,8 @@ import OsuApi from '../api/osuApi'
 import eventListener  from 'events'
 import { dialog } from 'electron'
 import { IBeatmapFavoriteList } from '../api/osuFavoriteList'
-import Error, { ErrorType } from '../utils/errorType'
+import Error from '../utils/errorType'
+import OsuUser from '../api/osuUser'
 
 export interface ILoginOsu{
     username: string
@@ -14,6 +15,7 @@ let listener = new eventListener()
 const osuApi = new OsuApi()
 let fullList: IBeatmapFavoriteList[]
 let globalWindow: BrowserWindow
+let user: OsuUser
 
 async function fullListLoad(){
     return new Promise((resolve) => {
@@ -37,13 +39,17 @@ export function mainWindow(window: BrowserWindow){
 ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
     try{
         await osuApi.getCookies()
-        const user = await osuApi.loginOsuUser(arg.username, arg.password)
-        event.reply("loginOsuReply", user.object)
+        user = await osuApi.loginOsuUser(arg.username, arg.password)
+        event.reply("loginOsuReply")
     }catch(err){
         if(!Error.sendInternetErrorMessage(err, event))
             Error.sendUnknownError(err, event)
         console.log("----- error on login ----");
     }
+})
+
+ipcMain.on("getCurrentUser", (event) => {
+    event.returnValue = user.object
 })
 
 ipcMain.on("getFavoriteList", async (event, id: number) => {
