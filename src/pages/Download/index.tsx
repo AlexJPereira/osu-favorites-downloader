@@ -101,7 +101,6 @@ export default class Download extends React.Component<RouteComponentProps>{
     
     render(){
         return(
-            // main-page style its in /pages/Login/style.css
             <div className="main-page">
                 <BackgroundImage/>
                 <div className="download-page">

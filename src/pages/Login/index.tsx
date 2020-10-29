@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 
 import './style.css'
 import '../../components/fontAwesome/css/font-awesome.min.css'
@@ -8,7 +8,7 @@ import BackgroundImage from '../../components/BackgroundImage'
 
 const { ipcRenderer } = window.require("electron");
 
-class Login extends Component<RouteComponentProps>{
+export default class Login extends Component<RouteComponentProps>{
 
     constructor(props: RouteComponentProps){
         super(props)
@@ -26,5 +26,3 @@ class Login extends Component<RouteComponentProps>{
         )
     }
 }
-
-export default withRouter(Login)
