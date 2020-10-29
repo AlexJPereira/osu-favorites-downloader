@@ -1,4 +1,5 @@
-import { IpcMainEvent } from 'electron'
+import { IpcMainEvent, app } from 'electron'
+import delay from './delay';
 
 export enum ErrorType{
     WrongPassword = "403",
@@ -23,7 +24,7 @@ export default {
                     this.sendErrorMessage(event, "Wrong Password.", "password-input");
                 return true
             case ErrorType.ReCaptcha:
-                this.sendErrorMessage(event, "A ReCaptch is blocking your login, login on Osu using the Browser.");
+                this.sendErrorMessage(event, "A ReCaptcha is blocking your login, close this app, login on Osu using the browser and try again");
                 return true
             case ErrorType.Ban:
                 this.sendErrorMessage(event, "Your IP was banned for doing too many requests, wait some minutes and try again later.");
