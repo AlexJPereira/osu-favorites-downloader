@@ -3,6 +3,7 @@ import OsuApi from '../api/osuApi'
 import eventListener  from 'events'
 import { dialog } from 'electron'
 import { IBeatmapFavoriteList } from '../api/osuFavoriteList'
+import Error, { ErrorType } from '../utils/errorType'
 
 export interface ILoginOsu{
     username: string
@@ -39,8 +40,9 @@ ipcMain.on("loginOsu", async (event, arg: ILoginOsu) => {
         const user = await osuApi.loginOsuUser(arg.username, arg.password)
         event.reply("loginOsuReply", user.object)
     }catch(err){
-        console.log(err)
-        console.log("----- error on login ----")
+        if(!Error.sendInternetErrorMessage(err, event))
+            Error.sendUnknownError(err, event)
+        console.log("----- error on login ----");
     }
 })
 
@@ -53,7 +55,8 @@ ipcMain.on("getFavoriteList", async (event, id: number) => {
         listener.emit("listLoaded")
         event.reply("getFavoriteListReply", fullList)
     }catch(err){
-        console.log(err)
+        if(!Error.sendInternetErrorMessage(err, event))
+            Error.sendUnknownError(err, event)
         console.log("----- error on get initial favorite beatmaps -----")
     }
 })
@@ -63,7 +66,8 @@ ipcMain.on("getFavoriteCount", async (event, id: number) => {
         const favoriteCount = await osuApi.getFavoriteCount(id)
         event.reply("FavoriteCountReply", favoriteCount)
     }catch(err){
-        console.log(err)
+        if(!Error.sendInternetErrorMessage(err, event))
+            Error.sendUnknownError(err, event)
         console.log("----- error on get favorite count -----")
     }
 })
@@ -84,7 +88,8 @@ ipcMain.on("downloadFavorites", async (event, id: number, withVideo: boolean, be
         console.log("list loaded")
         await osuApi.downloadBeatmapList(fullList.slice(offset, offset+beatmapCount), 0, path.filePaths.pop() || './', withVideo, event)
     }catch(err){
-        console.log(err)
+        if(!Error.sendInternetErrorMessage(err, event))
+            Error.sendUnknownError(err, event)
         console.log("----- error on download favorites -----")
     }
 })
