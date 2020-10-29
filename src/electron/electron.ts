@@ -8,7 +8,7 @@ const startURL = isDev ? 'http://localhost:3000' : `file://${path.join(__dirname
 
 function createWindow () {
   const win = new BrowserWindow({
-    width: 1200,
+    width: isDev ? 1200 : 600,
     height: 600,
     webPreferences: {
       worldSafeExecuteJavaScript: true,
@@ -18,9 +18,10 @@ function createWindow () {
 
   win.setMenu(null)
   win.loadURL(startURL)
-
-  win.webContents.openDevTools()
   mainWindow(win)
+
+  if(isDev)
+    win.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
