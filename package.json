@@ -1,6 +1,6 @@
 {
   "name": "osu-favorite-downloader",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "homepage": "./",
   "main": "public/electron.js",
@@ -15,7 +15,10 @@
       "output": "bin"
     },
     "linux": {
-      "target": "Appimage"
+      "target": ["Appimage", "tar.gz"]
+    },
+    "win": {
+      "target": "portable"
     }
   },
   "dependencies": {
@@ -50,7 +53,7 @@
     "eject": "react-scripts eject",
     "electron-start": "electron ./public/electron.js",
     "electron-compile": "cd ./src/electron && tsc",
-    "electron-build": "yarn electron-compile && yarn build --em.main=build/electron.js && electron-builder",
+    "electron-build": "yarn electron-compile && yarn build --em.main=build/electron.js && yarn electron-builder",
     "test-api": "cd ./src/electron && ts-node ./src/api/osuApi.ts"
   },
   "eslintConfig": {

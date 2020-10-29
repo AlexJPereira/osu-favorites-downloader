@@ -6,6 +6,11 @@
     user-select: none;
 }
 
+.error{
+    border: 1px !important;
+    border-color: red !important;
+}
+
 ::-webkit-scrollbar {     
     background: transparent;
     margin-left: 10px;

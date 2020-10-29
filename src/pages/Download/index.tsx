@@ -19,7 +19,7 @@ export interface IDownloadPageState extends IUser{
 }
 
 export default class Download extends React.Component<RouteComponentProps>{
-    state: IDownloadPageState = {...(this.props.history.location.state as IUser),
+    state: IDownloadPageState = {...(ipcRenderer.sendSync("getCurrentUser") as IUser),
         favoriteCount: 0,
         currentCount: 1,
         currentOffset: 0,
@@ -101,7 +101,6 @@ export default class Download extends React.Component<RouteComponentProps>{
     
     render(){
         return(
-            // main-page style its in /pages/Login/style.css
             <div className="main-page">
                 <BackgroundImage/>
                 <div className="download-page">
