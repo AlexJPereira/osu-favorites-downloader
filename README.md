@@ -7,7 +7,7 @@
 
 <img src="./public/assets/icon.png" alt="logo" width="200" align="right"/>
 
-Project made with Electron for the functionalities and React for the interface. Unofficial Osu Favorite Downloader is a program to download the user's favorites maps in the musical game [Osu!](Https://osu.ppy.sh/home) with just one click.
+Project made with Electron for the functionalities and React for the interface. Unofficial Osu Favorite Downloader is a program to download the user's favorites maps of the musical game [Osu!](Https://osu.ppy.sh/home) with just one click.
 
 ## How to use
 
