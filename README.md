@@ -7,19 +7,18 @@
 
 <img src="./public/assets/icon.png" alt="logo" width="200" align="right"/>
 
-Projeto feito com Electron para as funcionalidades e React para a interface. Unofficial Osu Favorite Downloader é um programa para baixar os favoritos do usuário no jogo musical [Osu!](https://osu.ppy.sh/home) com apenas um click.
+Project made with Electron for the functionalities and React for the interface. Unofficial Osu Favorite Downloader is a program to download the user's favorites maps in the musical game [Osu!](Https://osu.ppy.sh/home) with just one click.
 
-## Como utilizar
+## How to use
 
-- Baixe o [programa](https://github.com/wykke/osu-favorite-downloader/releases/tag/1.0.0).
-- Faça login.
-- Escolha o offset, a quantidade de beatmaps e se quer baixar com vídeo.
-    - O offset representa onde na lista irá começar a baixar, é util quando for parar um download e quiser continuar depois.
-    - A quantidade de beatmaps representa a quantidade que irá baixar após o offset.
-    - A escolha de download com vídeo se refere ao vídeo que aparece no fundo ao jogar uma música.
-- Click download e pronto.
+- Download the [program](https://github.com/wykke/osu-favorite-downloader/releases/tag/1.0.0).
+- Sign in.
+- Choose the offset, the amount of beatmaps and if you want to download with video.
+    - The offset represents where in the list you will start downloading, it is useful when you stop a download and want to continue later.
+    - The choice of video download refers to the video that appears in the background when playing a song.
+- Click download and done.
 
-Cuidado, o servidor do osu limita o usuário com 200 downloads seguidos, depois disso deve-se aguardar um tempo.
+Be careful, the osu server limits the user to 200 downloads in a row, after that you have to wait a while.
 
 ## Screenshots
 
@@ -28,20 +27,20 @@ Cuidado, o servidor do osu limita o usuário com 200 downloads seguidos, depois 
 <img src="./docs/screenshot2.gif" width="49%">
 </div>
 
-## Como desenvolver
+## How to develop
 
-Existem alguns comandos úteis no `package.json`.
+There are some useful commands in `package.json`.
 
-- `yarn start`: inicia o react, utilize esse comando antes de abrir o electron.
-- `yarn electron-compile`: compila os arquivos referentes a pasta `/src/electron`, caso tenha feito modificações nessa pasta, utilize esse comando antes de abrir o electron.
-- `yarn electron-start`: abre o electron em modo de desenvolvimento, a interface será provida por `http://localhost:3000`.
+- `yarn start`: starts react, use this command before opening the electron.
+- `yarn electron-compile`: compiles the files in the directory `/src/electron`, if you have made changes to that folder, use this command before opening electron.
+- `yarn electron-start`: opens the electron in development mode, the interface will be provided by `http://localhost:3000`.
 
-Para compilar o projeto para produção.
+To compile the project for production.
 
-- `yarn electron-build`: compila os arquivos do electron, cria os arquivos estáticos da interface através do React na pasta `/build` e compila o arquivo executável através do electron-builder.
+- `yarn electron-build`: compiles electron files, creates static interface files through React in the directory `/build` and compiles the executable file using electron-builder.
 
-## Possível upgrades futuros
+## Possible future upgrades
 
-- Fazer com que após 200 downloads, o programa espere o servidor do osu liberar mais download e continue, ao invés de simplesmente parar o download.
-- Adicionar o ReCaptcha na página de login quando necessário.
+- After 200 downloads, the program waits for the osu server to release more downloads and continues, instead of simply stopping the download.
+- Add ReCaptcha to the login page when necessary.
 
