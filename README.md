@@ -1,44 +1,46 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">
+    Unofficial Osu Favorite Downloader
+</h1>
 
-## Available Scripts
+![license](https://img.shields.io/github/license/wykke/osu-favorite-downloader)
+![issues](https://img.shields.io/github/issues/wykke/osu-favorite-downloader)
 
-In the project directory, you can run:
+<img src="./public/assets/icon.png" alt="logo" width="200" align="right"/>
 
-### `yarn start`
+Project made with Electron for the functionalities and React for the interface. Unofficial Osu Favorite Downloader is a program to download the user's favorites maps in the musical game [Osu!](Https://osu.ppy.sh/home) with just one click.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## How to use
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Download the [program](https://github.com/wykke/osu-favorite-downloader/releases/tag/1.0.0).
+- Sign in.
+- Choose the offset, the amount of beatmaps and if you want to download with video.
+    - The offset represents where in the list you will start downloading, it is useful when you stop a download and want to continue later.
+    - The choice of video download refers to the video that appears in the background when playing a song.
+- Click download and done.
 
-### `yarn test`
+Be careful, the osu server limits the user to 200 downloads in a row, after that you have to wait a while.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots
 
-### `yarn build`
+<div display="inline">
+<img src="./docs/screenshot1.png" width="49%">
+<img src="./docs/screenshot2.gif" width="49%">
+</div>
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How to develop
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+There are some useful commands in `package.json`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `yarn start`: starts react, use this command before opening the electron.
+- `yarn electron-compile`: compiles the files in the directory `/src/electron`, if you have made changes to that folder, use this command before opening electron.
+- `yarn electron-start`: opens the electron in development mode, the interface will be provided by `http://localhost:3000`.
 
-### `yarn eject`
+To compile the project for production.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- `yarn electron-build`: compiles electron files, creates static interface files through React in the directory `/build` and compiles the executable file using electron-builder.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Possible future upgrades
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- After 200 downloads, the program waits for the osu server to release more downloads and continues, instead of simply stopping the download.
+- Add ReCaptcha to the login page when necessary.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
