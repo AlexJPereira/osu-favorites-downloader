@@ -2,8 +2,8 @@
     Unofficial Osu Favorites Downloader
 </h1>
 
-![license](https://img.shields.io/github/license/wykke/osu-favorites-downloader)
-![issues](https://img.shields.io/github/issues/wykke/osu-favorites-downloader)
+![license](https://img.shields.io/github/license/AlexJPereira/osu-favorites-downloader)
+![issues](https://img.shields.io/github/issues/AlexJPereira/osu-favorites-downloader)
 
 <img src="./public/assets/icon.png" alt="logo" width="200" align="right"/>
 
@@ -11,7 +11,7 @@ Project made with Electron for the functionalities and React for the interface. 
 
 ## How to use
 
-- Download the [program](https://github.com/wykke/osu-favorites-downloader/releases/tag/1.0.0).
+- Download the [program](https://github.com/AlexJPereira/osu-favorites-downloader/releases/tag/1.0.0).
 - Sign in.
 - Choose the offset, the amount of beatmaps and if you want to download with video.
     - The offset represents where in the list you will start downloading, it is useful when you stop a download and want to continue later.
